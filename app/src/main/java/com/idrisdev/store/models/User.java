@@ -1,14 +1,21 @@
-package com.idrisdev.store;
+package com.idrisdev.store.models;
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.List;
 
 /**
  * Created by Idris on 6/5/2018.
  */
 
-public class User {
+public class User implements Parcelable{
     private int mId;
     private String mName;
     private String mEmail;
     private boolean mActive;
+    private List<Product> mOrders;
+
 
     /**
      * Basic Constructor for the User Object/Model
@@ -21,6 +28,26 @@ public class User {
         this.mName = name;
         this.mEmail = email;
     }
+
+    protected User(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mEmail = in.readString();
+        mActive = in.readByte() != 0;
+        mOrders = in.createTypedArrayList(Product.CREATOR);
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     /**
      * Gets the User's ID
@@ -84,5 +111,35 @@ public class User {
      */
     public void setActive(boolean active) {
         this.mActive = active;
+    }
+
+    /**
+     * Sets the User's orders
+     * @param products List<Product>
+     */
+    public void setOrders(List<Product> products){
+        this.mOrders = products;
+    }
+
+    /**
+     * Add a product to the User's orders
+     * @param product Product
+     */
+    public void addOrder(Product product){
+        this.mOrders.add(product);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mId);
+        parcel.writeString(mName);
+        parcel.writeString(mEmail);
+        parcel.writeByte((byte) (mActive ? 1 : 0));
+        parcel.writeTypedList(mOrders);
     }
 }

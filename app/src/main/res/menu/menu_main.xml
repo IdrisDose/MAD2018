@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.idrisdev.store.MainActivity">
+    <item
+        android:id="@+id/action_products"
+        android:orderInCategory="0"
+        android:title="@string/action_products"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_orders"
+        android:orderInCategory="1"
+        android:title="@string/actions_orders"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="2"
+        android:title="@string/action_logout"
+        app:showAsAction="never" />
+
+</menu>
