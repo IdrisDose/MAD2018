@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Created by Idris on 6/5/2018.
@@ -34,6 +36,20 @@ public class Product implements Parcelable{
         this.mPrice = price;
         this.mHidden = hidden;
         this.mFree = free;
+    }
+
+    public Product(int id, String name, String description){
+        this.mId = id;
+        this.mName = name;
+        this.mDescription = description;
+        this.mPrice = this.randomNumGeneratorDouble();
+
+        if(this.mPrice == 00.00){
+            this.mFree = true;
+        }else{
+            this.mFree = false;
+        }
+        this.mHidden = false;
     }
 
     protected Product(Parcel in) {
@@ -122,5 +138,34 @@ public class Product implements Parcelable{
         parcel.writeDouble(mPrice);
         parcel.writeByte((byte) (mHidden ? 1 : 0));
         parcel.writeByte((byte) (mFree ? 1 : 0));
+    }
+
+    /**
+     * Random number (double) generator using Math.random
+     * @return random number between 1 and 20
+     */
+    private double randomNumGeneratorDouble(){
+
+        //Got this neat little random num from here
+        //https://dzone.com/articles/random-number-generation-in-java
+
+        double generatedNumber = ((Math.random() * ((20 - 1) + 1)) + 1);
+        return round(generatedNumber,2);
+    }
+
+
+
+    /**
+     * A Helper function used to round the prices
+     * @param value double
+     * @param places int
+     * @return double - formatted double
+     */
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }

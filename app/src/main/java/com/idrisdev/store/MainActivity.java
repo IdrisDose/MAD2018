@@ -59,12 +59,9 @@ public class MainActivity extends AppCompatActivity {
      * @param id int
      * @param name String
      * @param description String
-     * @param price double
-     * @param hidden boolean
-     * @param free boolean
      */
-    private void addProduct(int id, String name, String description, double price,boolean hidden, boolean free){
-        Product product = new Product(id,name,description,price,hidden,free);
+    private void addProduct(int id, String name, String description){
+        Product product = new Product(id,name,description);
         this.mProducts.add(product);
         mProductAdapter.notifyDataSetChanged();
     }
@@ -77,21 +74,8 @@ public class MainActivity extends AppCompatActivity {
         // TODO: allow for json download via web
         // (http://idris.tech/products)
         for(int i = 0; i<this.randomNumGenerator(); i++){
-            this.addProduct(i, "Product "+i, "A random description", this.randomNumGeneratorDouble(),false,false);
+            this.addProduct(i, "Product "+i, "A random description");
         }
-    }
-
-    /**
-     * Random number (double) generator using Math.random
-     * @return random number between 1 and 20
-     */
-    private double randomNumGeneratorDouble(){
-
-        //Got this neat little random num from here
-        //https://dzone.com/articles/random-number-generation-in-java
-
-        double generatedNumber = ((Math.random() * ((20 - 1) + 1)) + 1);
-        return round(generatedNumber,2);
     }
 
     /**
@@ -103,20 +87,6 @@ public class MainActivity extends AppCompatActivity {
         //Got this neat little random num from here
         //https://dzone.com/articles/random-number-generation-in-java
         return (int)((Math.random() * ((20 - 1) + 1)) + 1);
-    }
-
-    /**
-     * A Helper function used to round the prices
-     * @param value double
-     * @param places int
-     * @return double - formatted double
-     */
-    public static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
     }
 
 }

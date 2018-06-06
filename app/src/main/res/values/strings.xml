@@ -5,7 +5,8 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
+    <string name="action_logging_in">Logging you in</string>
+    <string name="action_sign_in_short">Login</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
@@ -13,9 +14,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_main_ticket">Tickets</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_main">Product List - StoreApp</string>
+    <string name="title_activity_main_ticket">Tickets - StoreApp</string>
+    <string name="title_activity_login">Login - StoreApp</string>
+    <string name="title_activity_product">Product View - StoreApp</string>
 
     <string name="text_default">Default Text</string>
     <string name="product_item_title_price">Price:</string>
@@ -24,5 +26,5 @@
     <string name="action_logout">Logout</string>
     <string name="action_products">Products</string>
     <string name="actions_orders">Orders</string>
-    <string name="title_activity_product">Products</string>
+
 </resources>
