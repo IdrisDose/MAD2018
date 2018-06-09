@@ -1,8 +1,6 @@
-package com.idrisdev.store;
+package com.idrisdev.store.adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.idrisdev.store.R;
 import com.idrisdev.store.models.Product;
 
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
      * layout file.
      * <p>
      * The new ViewHolder will be used to display items of the adapter using
-     * {@link #onBindViewHolder(ViewHolder, int, List)}. Since it will be re-used to display
+     * onBindViewHolder(ViewHolder, int, List). Since it will be re-used to display
      * different items in the data set, it is a good idea to cache references to sub views of
      * the View to avoid unnecessary {@link View#findViewById(int)} calls.
      *
@@ -69,7 +68,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
      * on (e.g. in a click listener), use {@link ViewHolder#getAdapterPosition()} which will
      * have the updated adapter position.
      * <p>
-     * Override {@link #onBindViewHolder(ViewHolder, int, List)} instead if Adapter can
+     * Override onBindViewHolder(ViewHolder, int, List) instead if Adapter can
      * handle efficient partial bind.
      *
      * @param holder   The ViewHolder which should be updated to represent the contents of the
@@ -79,18 +78,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Product mProduct = mProducts.get(position);
-        holder.name.setText(mProduct.getName());
-        holder.description.setText(mProduct.getDescription());
-        holder.price.setText(mProduct.getDisplayPrice());
+        holder.mName.setText(mProduct.getName());
+        holder.mDescription.setText(mProduct.getDescription());
+        holder.mPrice.setText(mProduct.getDisplayPrice());
 
-        holder.productLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent productDetailsScreenIntent = new Intent(view.getContext(),ProductActivity.class);
-                productDetailsScreenIntent.putExtra("product",mProduct);
-                productDetailsScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(productDetailsScreenIntent);
-            }
+
+        // Sets the onClickListener of a product item to change to a 'more details' activity.
+        // USES: a Lamba Expression with input of 'view'
+        holder.mProductLayout.setOnClickListener(view -> {
+            // TODO: Change this so it shows a product screen/activity.
+//                Intent productDetailsScreenIntent = new Intent(view.getContext(),MainActivity.class);
+//                productDetailsScreenIntent.putExtra("product",mProduct);
+//                productDetailsScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                mContext.startActivity(productDetailsScreenIntent);
         });
     }
 
@@ -104,16 +104,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return mProducts.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView name, description, price;
-        public RelativeLayout productLayout;
+    class ViewHolder extends RecyclerView.ViewHolder{
+        TextView mName;
+        TextView mDescription;
+        TextView mPrice;
+        RelativeLayout mProductLayout;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
-            name = (TextView) itemView.findViewById(R.id.layoutProductName);
-            description = (TextView) itemView.findViewById(R.id.layoutProductDescription);
-            price = (TextView) itemView.findViewById(R.id.layoutPrice);
-            productLayout = (RelativeLayout) itemView.findViewById(R.id.layoutProduct);
+            mName = (TextView) itemView.findViewById(R.id.product_name_tv);
+            mDescription = (TextView) itemView.findViewById(R.id.product_description_tv);
+            mPrice = (TextView) itemView.findViewById(R.id.product_price_tv);
+            mProductLayout = (RelativeLayout) itemView.findViewById(R.id.product_layout_rl);
         }
     }
 
