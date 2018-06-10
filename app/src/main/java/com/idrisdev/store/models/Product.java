@@ -3,7 +3,6 @@ package com.idrisdev.store.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -44,15 +43,11 @@ public class Product implements Parcelable{
         this.mDescription = description;
         this.mPrice = this.randomNumGeneratorDouble();
 
-        if(this.mPrice == 00.00){
-            this.mFree = true;
-        }else{
-            this.mFree = false;
-        }
+        this.mFree = this.mPrice == 00.00;
         this.mHidden = false;
     }
 
-    protected Product(Parcel in) {
+    private Product(Parcel in) {
         mId = in.readInt();
         mName = in.readString();
         mDescription = in.readString();
@@ -101,7 +96,7 @@ public class Product implements Parcelable{
         return mPrice;
     }
     public String getDisplayPrice(){
-        return "$"+this.getPrice();
+        return "$"+this.mPrice;
     }
 
     public void setPrice(double mPrice) {
@@ -161,7 +156,7 @@ public class Product implements Parcelable{
      * @param places int
      * @return double - formatted double
      */
-    public static double round(double value, int places) {
+    private static double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
         BigDecimal bd = new BigDecimal(value);
