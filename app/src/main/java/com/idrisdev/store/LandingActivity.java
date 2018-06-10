@@ -1,20 +1,32 @@
 package com.idrisdev.store;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatEditText;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+
+import com.idrisdev.store.models.User;
 
 public class LandingActivity extends AppCompatActivity {
 
     private ScrollView mLoginForm;
     private ScrollView mRegisterForm;
     private TextView mTitle;
-    private ConstraintLayout mButtonPanel;
+    private RelativeLayout mLandingContainer;
+    private RelativeLayout mProgressbarContainer;
+
+    //TODO: Remove this later:
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,40 +34,39 @@ public class LandingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing);
 
         //Initialize class scope views and variable
-        mLoginForm = (ScrollView) findViewById(R.id.login_form);
-        mRegisterForm = (ScrollView) findViewById(R.id.register_form);
-        mTitle = (TextView) findViewById(R.id.login_title_tv);
-        mButtonPanel = (ConstraintLayout) findViewById(R.id.button_panel);
+        mLoginForm = findViewById(R.id.login_form);
+        mRegisterForm = findViewById(R.id.register_form);
+        mTitle = findViewById(R.id.login_title_tv);
+        mLandingContainer = findViewById(R.id.landing_container_rl);
+        mProgressbarContainer = findViewById(R.id.progress_container_rl);
 
         //Declare and Initialize buttons
-        Button showLoginFormBtn = (Button) findViewById(R.id.show_login_form_btn);
-        Button showRegisterFormBtn = (Button) findViewById(R.id.show_register_form_btn);
-        Button loginActionBtn = (Button) findViewById(R.id.login_action_btn);
-        Button loginBackBtn = (Button) findViewById(R.id.login_back_btn);
-        Button registerActionBtn = (Button) findViewById(R.id.register_action_btn);
-        Button registerBackBtn = (Button) findViewById(R.id.register_back_btn);
+        Button showLoginFormBtn = findViewById(R.id.show_login_form_btn);
+        Button showRegisterFormBtn = findViewById(R.id.show_register_form_btn);
+        Button loginActionBtn = findViewById(R.id.login_action_btn);
+        Button loginBackBtn = findViewById(R.id.login_back_btn);
+        Button registerActionBtn = findViewById(R.id.register_action_btn);
+        Button registerBackBtn = findViewById(R.id.register_back_btn);
 
 
         showLoginFormBtn.setOnClickListener(button ->{
             //Might be redundant but double checking that you are tapping on Login Button
             if(button.getId() == R.id.show_login_form_btn){
-                showLogin(true);
+                showView(mLoginForm);
             }
         });
 
         showRegisterFormBtn.setOnClickListener(button ->{
             //Might be redundant but double checking that you are tapping on Register Button
             if(button.getId() == R.id.show_register_form_btn){
-                showRegister(true);
+                showView(mRegisterForm);
             }
         });
-
         loginActionBtn.setOnClickListener(button -> {
             if(button.getId() == R.id.login_action_btn){
                 attemptLogin();
             }
         });
-
         registerActionBtn.setOnClickListener(button -> {
             if(button.getId() == R.id.register_action_btn){
                 attemptRegister();
@@ -65,7 +76,65 @@ public class LandingActivity extends AppCompatActivity {
         //Set the button listener the same for both back buttons.
         loginBackBtn.setOnClickListener(backButtonListener);
         registerBackBtn.setOnClickListener(backButtonListener);
+
+        //TODO: Remove this for later
+        user = new User(1, "Idris","idris@test.com");
+        user.setPassword("secret");
     }
+
+    /**
+     * Attempts to sign in or register the account specified by the login form.
+     * If there are form errors (invalid email, missing fields, etc.), the
+     * errors are presented and no actual login attempt is made.
+     */
+
+    //TODO: Fix this
+    private void attemptLogin() {
+        EditText emailEt = findViewById(R.id.login_email);
+        EditText passwordEt = findViewById(R.id.login_password);
+
+        String email = emailEt.getText().toString();
+        String password = passwordEt.getText().toString();
+
+        // Reset errors.
+        emailEt.setError(null);
+        passwordEt.setError(null);
+
+        boolean cancel = false;
+        View focusView = null;
+
+
+        //TODO: Update this method
+        if(TextUtils.isEmpty(password) || TextUtils.isEmpty(email)){
+            emailEt.setError(getString(R.string.error_field_required));
+            focusView = emailEt;
+            cancel = true;
+        }
+
+        if(!user.getEmail().equals(email)){
+            emailEt.setError(getString(R.string.error_invalid_email));
+            focusView = emailEt;
+            cancel = true;
+        }else if(!user.attemptLogin(password)){
+            passwordEt.setError(getString(R.string.error_incorrect_password));
+            focusView = passwordEt;
+            cancel = true;
+        }
+
+
+        if(!cancel){
+            //Show (FAKE FOR NOW) Progress Bar
+            showView(mProgressbarContainer);
+
+            //swap to MainActivity
+            Intent showMainActivity = new Intent(this, MainActivity.class);
+            showMainActivity.putExtra("user",user);
+            startActivity(showMainActivity);
+        }else{
+            focusView.requestFocus();
+        }
+    }
+
 
     /**
      * Attempts to process the registration using the registration form data
@@ -76,14 +145,6 @@ public class LandingActivity extends AppCompatActivity {
         startActivity(showMainActivity);
     }
 
-    /**
-     * Attempts to process the login using the form data
-     */
-    private void attemptLogin() {
-        //TODO: Update this method
-        Intent showMainActivity = new Intent(this, MainActivity.class);
-        startActivity(showMainActivity);
-    }
 
     Button.OnClickListener backButtonListener = new Button.OnClickListener() {
         /**
@@ -96,38 +157,72 @@ public class LandingActivity extends AppCompatActivity {
 
             //Double checking if either the Register back button or login back button was tapped.
             if(button.getId() == R.id.register_back_btn || button.getId() == R.id.login_back_btn){
-                showButtonPanel();
+                showView(mLandingContainer);
             }
 
         }
     };
 
     /**
-     * Shows or hides the register form
-     * @param showForm used to show or hide the elements
+     * Shows only the view parsed in the parameters
+     * @param viewToShow View - The parsed view to set visible.
      */
-    private void showRegister(boolean showForm) {
-        mRegisterForm.setVisibility(showForm ? View.VISIBLE : View.GONE);
-        mLoginForm.setVisibility(showForm? View.GONE : View.VISIBLE);
-        mTitle.setVisibility(showForm? View.GONE : View.VISIBLE);
-        mButtonPanel.setVisibility(showForm? View.GONE : View.VISIBLE);
-    }
-
-    /**
-     * Shows or hides the login form
-     * @param showForm used to show or hide the elements
-     */
-    private void showLogin(boolean showForm) {
-        mLoginForm.setVisibility(showForm ? View.VISIBLE : View.GONE);
-        mRegisterForm.setVisibility(showForm ? View.GONE : View.VISIBLE);
-        mTitle.setVisibility(showForm? View.GONE : View.VISIBLE);
-        mButtonPanel.setVisibility(showForm? View.GONE : View.VISIBLE);
-    }
-
-    private void showButtonPanel(){
-        mLoginForm.setVisibility(View.GONE);
+    private void showView(View viewToShow){
+        //Hides all the views
         mRegisterForm.setVisibility(View.GONE);
-        mTitle.setVisibility(View.VISIBLE);
-        mButtonPanel.setVisibility( View.VISIBLE);
+        mLoginForm.setVisibility(View.GONE);
+        mLandingContainer.setVisibility(View.GONE);
+        mProgressbarContainer.setVisibility(View.GONE);
+
+        //Shows the view parsed in via the viewToShow parameter
+        viewToShow.setVisibility(View.VISIBLE);
+    }
+
+    //TODO: Fix this later
+    @SuppressLint("StaticFieldLeak")
+    public class UserLoginTask extends AsyncTask<Void, Void, Boolean>{
+
+        /**
+         * Override this method to perform a computation on a background thread. The
+         * specified parameters are the parameters passed to {@link #execute}
+         * by the caller of this task.
+         * <p>
+         * This method can call {@link #publishProgress} to publish updates
+         * on the UI thread.
+         *
+         * @param voids The parameters of the task.
+         * @return A result, defined by the subclass of this task.
+         * @see #onPreExecute()
+         * @see #onPostExecute
+         * @see #publishProgress
+         */
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return false;
+        }
+    }
+
+    //TODO: Fix this later
+    @SuppressLint("StaticFieldLeak")
+    public class UserRegisterTask extends AsyncTask<Void, Void, Boolean>{
+
+        /**
+         * Override this method to perform a computation on a background thread. The
+         * specified parameters are the parameters passed to {@link #execute}
+         * by the caller of this task.
+         * <p>
+         * This method can call {@link #publishProgress} to publish updates
+         * on the UI thread.
+         *
+         * @param voids The parameters of the task.
+         * @return A result, defined by the subclass of this task.
+         * @see #onPreExecute()
+         * @see #onPostExecute
+         * @see #publishProgress
+         */
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            return null;
+        }
     }
 }

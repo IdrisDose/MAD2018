@@ -5,10 +5,27 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorSecondary</item>
-        <item name="colorAccent">@color/colorGrey</item>
+        <item name="colorAccent">@color/colorSecondary</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:textColorHint">@color/colorSecondary</item>
+        <item name="colorControlNormal">@color/colorOffWhite</item>
+        <item name="colorControlActivated">@color/colorOffWhite</item>
+        <item name="colorControlHighlight">@color/colorOffWhite</item>
     </style>
+
+    <style name="ButtonPrimary">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="backgroundTint">@color/colorOffWhite</item>
+    </style>
+
+    <style name="ButtonSecondary">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorOffWhite</item>
+        <item name="backgroundTint">@color/colorSecondary</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

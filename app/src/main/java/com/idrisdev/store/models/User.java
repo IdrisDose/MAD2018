@@ -3,7 +3,7 @@ package com.idrisdev.store.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Idris on 6/5/2018.
@@ -14,7 +14,8 @@ public class User implements Parcelable{
     private String mName;
     private String mEmail;
     private boolean mActive;
-    private List<Product> mOrders;
+    private String mPassword;
+    private ArrayList<Product> mOrders;
 
 
     /**
@@ -29,7 +30,7 @@ public class User implements Parcelable{
         this.mEmail = email;
     }
 
-    protected User(Parcel in) {
+    private User(Parcel in) {
         mId = in.readInt();
         mName = in.readString();
         mEmail = in.readString();
@@ -117,7 +118,7 @@ public class User implements Parcelable{
      * Sets the User's orders
      * @param products List<Product>
      */
-    public void setOrders(List<Product> products){
+    public void setOrders(ArrayList<Product> products){
         this.mOrders = products;
     }
 
@@ -127,6 +128,11 @@ public class User implements Parcelable{
      */
     public void addOrder(Product product){
         this.mOrders.add(product);
+    }
+
+    //TODO: Remove this later
+    public void setPassword(String password){
+        this.mPassword = password;
     }
 
     @Override
@@ -141,5 +147,25 @@ public class User implements Parcelable{
         parcel.writeString(mEmail);
         parcel.writeByte((byte) (mActive ? 1 : 0));
         parcel.writeTypedList(mOrders);
+    }
+
+
+    /**
+     * Attempts to login using the credentials provided
+     * @param password String - the entered password for validation.
+     * @return true if user is validaded/authenticated.
+     */
+    public boolean attemptLogin(String password){
+        //TODO: Update this method to actually login so we can properly authenticate.
+
+
+        boolean isValid = this.mPassword.equals(password);
+
+        if(isValid){
+            this.mOrders = new ArrayList<>();
+            this.mActive = true;
+        }
+
+        return isValid;
     }
 }

@@ -4,79 +4,124 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    style="@style/AppTheme"
     tools:context=".LandingActivity">
 
+    <!-- TODO: Possible separate them into fragments -->
 
-    <TextView
-        android:id="@+id/login_title_tv"
+    <!-- Progress Bar Container -->
+    <RelativeLayout
+        android:id="@+id/progress_container_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:includeFontPadding="false"
         android:layout_centerInParent="true"
-
-        android:text="@string/title_activity_login"
-        android:textSize="23sp"
-        android:textStyle="bold"/>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/button_panel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/login_title_tv"
-        android:layout_centerHorizontal="true">
-
-        <Button
-            android:id="@+id/show_login_form_btn"
+        android:visibility="gone">
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/action_sign_in"
-            app:layout_constraintBaseline_toBaselineOf="@+id/show_register_form_btn"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:id="@+id/show_register_form_btn"
+            android:layout_marginBottom="8dp"
+            android:layout_centerHorizontal="true"/>
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/action_register"
-            app:layout_constraintStart_toEndOf="@+id/show_login_form_btn"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+            android:layout_below="@id/progress_bar"
+            android:text="@string/action_logging_in"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textColor="@color/colorOffWhite"/>
+    </RelativeLayout>
+    <!-- End Progress Bar Container -->
 
-    <!-- Login progress -->
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
+    <!-- Landing Container -->
+    <RelativeLayout
+        android:id="@+id/landing_container_rl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
+        android:layout_centerInParent="true"
+        android:visibility="visible">
+        <TextView
+            android:id="@+id/login_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_activity_login"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorOffWhite"/>
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/button_panel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_title_tv"
+            android:layout_centerHorizontal="true">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/show_login_form_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_sign_in"
+                app:layout_constraintBaseline_toBaselineOf="@+id/show_register_form_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:textColor="@color/colorOffWhite"
+                app:backgroundTint="@color/colorSecondary" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/show_register_form_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/action_register"
+                app:layout_constraintStart_toEndOf="@+id/show_login_form_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:textColor="@color/colorOffWhite"
+                app:backgroundTint="@color/colorSecondary"/>
+
+        </android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
+    <!-- Landing Container -->
+
+    <!-- Login Form -->
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/login_form_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_sign_in_short"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/colorOffWhite"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
-                    android:id="@+id/email"
+                <EditText
+                    android:id="@+id/login_email"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:hint="@string/prompt_email"
+                    android:textColor="@color/colorOffWhite"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
-
+                    android:singleLine="true"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -84,53 +129,66 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/login_password"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:hint="@string/prompt_password"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
+                    android:textColor="@color/colorOffWhite"
                     android:maxLines="1"
-                    android:singleLine="true" />
-
+                    android:singleLine="true"/>
             </android.support.design.widget.TextInputLayout>
 
-            <Button
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/login_action_btn"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
-                android:textStyle="bold" />
-            <Button
+                android:textStyle="bold"
+                style="@style/ButtonPrimary"/>
+
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/login_back_btn"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/action_back"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                style="@style/ButtonSecondary"/>
 
         </LinearLayout>
     </ScrollView>
+    <!-- End Login Form -->
+
+    <!-- Register Form -->
     <ScrollView
         android:id="@+id/register_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         android:visibility="gone">
 
         <LinearLayout
             android:id="@+id/email_register_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/register_form_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/action_register"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:textColor="@color/colorOffWhite"/>
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp">
 
                 <AutoCompleteTextView
                     android:id="@+id/register_email"
@@ -139,7 +197,8 @@
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/colorOffWhite"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -152,31 +211,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
-                    android:imeActionId="6"
-                    android:imeActionLabel="@string/action_sign_in_short"
-                    android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textColor="@color/colorOffWhite"/>
 
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/register_action_btn"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold" />
+                android:text="@string/action_register"
+                style="@style/ButtonPrimary"/>
+
             <Button
                 android:id="@+id/register_back_btn"
-                style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/action_back"
-                android:textStyle="bold" />
+                style="@style/ButtonSecondary"/>
+
         </LinearLayout>
     </ScrollView>
+    <!-- End Registration Form -->
 
 </RelativeLayout>
