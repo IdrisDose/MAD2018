@@ -135,6 +135,10 @@ public class User implements Parcelable{
         this.mPassword = password;
     }
 
+    //TODO: Remove;
+    public String getPassword(){ return this.mPassword; }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -150,22 +154,5 @@ public class User implements Parcelable{
     }
 
 
-    /**
-     * Attempts to login using the credentials provided
-     * @param password String - the entered password for validation.
-     * @return true if user is validaded/authenticated.
-     */
-    public boolean attemptLogin(String password){
-        //TODO: Update this method to actually login so we can properly authenticate.
 
-
-        boolean isValid = this.mPassword.equals(password);
-
-        if(isValid){
-            this.mOrders = new ArrayList<>();
-            this.mActive = true;
-        }
-
-        return isValid;
-    }
 }

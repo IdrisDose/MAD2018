@@ -1,11 +1,14 @@
 package com.idrisdev.store;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,17 +19,18 @@ import com.idrisdev.store.fragments.CartFragment;
 import com.idrisdev.store.fragments.HomeFragment;
 import com.idrisdev.store.fragments.ProductsFragment;
 import com.idrisdev.store.fragments.TicketsFragment;
+import com.idrisdev.store.models.Auth;
 import com.idrisdev.store.models.User;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String TAG = "StoreApp";
-
     private User mUser;
+
     private HomeFragment mHomeFragment = new HomeFragment();
     private ProductsFragment mProductsFragment = new ProductsFragment();
     private TicketsFragment mTicketsFragment = new TicketsFragment();
     private CartFragment mCartFragment = new CartFragment();
+    private AlertDialog mLogoutDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +52,13 @@ public class MainActivity extends AppCompatActivity {
         //Get the user object which should be parsed into the Activity from either registration or login form (LandingActivity)
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            mUser = getIntent().getParcelableExtra("user");
-            if(mUser == null){
+            this.mUser = extras.getParcelable("user");
+
+            if(this.mUser == null){
                 Log.e("MAD", "Error retrieving user");
             }else{
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("user",mUser);
+                bundle.putParcelable("user",this.mUser);
                 mHomeFragment.setArguments(bundle);
             }
 
@@ -61,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Set Default Fragment to open up to:
         setFragment(mHomeFragment);
+
+
 
     }
 
@@ -103,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     return false;
                 }
             };
+
 
     /**
      * Initialize the contents of the Activity's standard options menu.  You
@@ -159,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 openSettings();
                 return true;
             case R.id.menu_action_logout:
-                handleLogout();
+                showLogoutDialog();
                 return true;
 
             default:
@@ -167,25 +175,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Handles what happens when a user clicks on the Logout Button/Menu Option.
-     */
-    private void handleLogout() {
+    public void openSettings() {
+        //TODO: Polish this.
+        Intent settingsScreen = new Intent(this,SettingsActivity.class);
+        settingsScreen.putExtra("user",this.mUser);
+        startActivity(settingsScreen);
+    }
+
+
+    public void handleLogout(){
+        mLogoutDialog.dismiss();
         //Makes a new Intent to swap to
         Intent loginScreen = new Intent(this,LandingActivity.class);
-
         //Stops any other activies running regarding this app.
         loginScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
         //Starts the loginScreen intent (using the LandingActivity layout/Activity)
         startActivity(loginScreen);
-
         //Calls the finish method on this activity.
         this.finish();
     }
 
-    private void openSettings() {
-        //TODO: Handle Settings Option
-        Log.e(TAG, "Not available yet");
+    /**
+     * Shows a confirmation dialog to make sure the user wants to logout.
+     */
+    public void showLogoutDialog(){
+        mLogoutDialog = new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Logout")
+                .setMessage("Would you like to logout?")
+                //If Yes is Tapped, call the handleDialog method
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    dialog.dismiss();
+                    handleLogout();
+                })
+                //If tapped no, dismiss the dialog
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss()).show();
+    }
+
+    /**
+     * Take care of popping the fragment back stack or finishing the activity
+     * as appropriate.
+     */
+    @Override
+    public void onBackPressed() {
+        showLogoutDialog();
     }
 }

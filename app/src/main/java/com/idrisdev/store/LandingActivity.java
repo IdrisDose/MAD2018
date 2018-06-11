@@ -13,18 +13,18 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.idrisdev.store.models.Auth;
 import com.idrisdev.store.models.User;
 
 public class LandingActivity extends AppCompatActivity {
 
     private ScrollView mLoginForm;
     private ScrollView mRegisterForm;
-    private TextView mTitle;
     private RelativeLayout mLandingContainer;
     private RelativeLayout mProgressbarContainer;
 
     //TODO: Remove this later:
-    private User user;
+    private User mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,6 @@ public class LandingActivity extends AppCompatActivity {
         //Initialize class scope views and variable
         mLoginForm = findViewById(R.id.login_form);
         mRegisterForm = findViewById(R.id.register_form);
-        mTitle = findViewById(R.id.login_title_tv);
         mLandingContainer = findViewById(R.id.landing_container_rl);
         mProgressbarContainer = findViewById(R.id.progress_container_rl);
 
@@ -76,8 +75,8 @@ public class LandingActivity extends AppCompatActivity {
         registerBackBtn.setOnClickListener(backButtonListener);
 
         //TODO: Remove this for later
-        user = new User(1, "Idris","idris@test.com");
-        user.setPassword("secret");
+        mUser = new User(1, "Idris","idris@test.com");
+        mUser.setPassword("secret");
     }
 
     /**
@@ -109,11 +108,14 @@ public class LandingActivity extends AppCompatActivity {
             cancel = true;
         }
 
-        if(!user.getEmail().equals(email)){
+        Auth auth = new Auth(email,mUser.getPassword());
+        auth.setUser(mUser);
+
+        if(!auth.isEmailValid()){
             emailEt.setError(getString(R.string.error_invalid_email));
             focusView = emailEt;
             cancel = true;
-        }else if(!user.attemptLogin(password)){
+        }else if(!auth.attemptLogin(password)){
             passwordEt.setError(getString(R.string.error_incorrect_password));
             focusView = passwordEt;
             cancel = true;
@@ -125,9 +127,7 @@ public class LandingActivity extends AppCompatActivity {
             showView(mProgressbarContainer);
 
             //swap to MainActivity
-            Intent showMainActivity = new Intent(this, MainActivity.class);
-            showMainActivity.putExtra("user",user);
-            startActivity(showMainActivity);
+            this.showMainActivity(mUser);
         }else{
             focusView.requestFocus();
         }
@@ -139,8 +139,21 @@ public class LandingActivity extends AppCompatActivity {
      */
     private void attemptRegister() {
         //TODO: Make actual registration
+        this.showMainActivity(null);
+
+    }
+
+    private void showMainActivity(User user){
         Intent showMainActivity = new Intent(this, MainActivity.class);
+
+        //Add some flags to clear the activity
+        showMainActivity.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        //If mUser is parsed in put it in the intent
+        if(user != null) showMainActivity.putExtra("user",user);
+
         startActivity(showMainActivity);
+        this.finish();
     }
 
 
