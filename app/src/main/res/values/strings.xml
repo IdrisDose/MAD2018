@@ -8,6 +8,7 @@
     <string name="text_default">Default Text</string>
     <string name="product_item_title_price">Price:</string>
     <string name="product_default_price">$0.00</string>
+    <string name="default_no_news">No recent news.</string>
 
     <!-- Actions/Buttons -->
     <string name="action_logging_in">Logging you in</string>
@@ -41,5 +42,21 @@
     <string name="tickets_fragment_text">Tickets Fragment</string>
     <string name="cart_fragment_text">Cart Fragment</string>
 
+    <!-- Home Strings -->
+    <string name="home_product_count">You currently own: %1$s products</string>
+    <string name="home_ticket_active_count">You currently have %1$s open tickets.</string>
+    <string name="home_recent_news">Recent News:</string>
+
+
+    <!-- Product Strings -->
+    <string name="product_owned_title">Your owned Products</string>
+    <string name="product_new_title">New Products</string>
+    <string name="product_all_title">All Products</string>
+
+    <!-- Ticket Strings -->
+    <string name="tickets_open">Open Tickets</string>
+
+    <!-- Cart Strings -->
+    <string name="cart_empty">Your cart is empty</string>
 
 </resources>

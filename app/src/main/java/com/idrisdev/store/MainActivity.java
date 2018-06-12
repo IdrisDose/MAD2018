@@ -1,8 +1,7 @@
 package com.idrisdev.store;
 
-import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -19,8 +18,10 @@ import com.idrisdev.store.fragments.CartFragment;
 import com.idrisdev.store.fragments.HomeFragment;
 import com.idrisdev.store.fragments.ProductsFragment;
 import com.idrisdev.store.fragments.TicketsFragment;
-import com.idrisdev.store.models.Auth;
+import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.User;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private TicketsFragment mTicketsFragment = new TicketsFragment();
     private CartFragment mCartFragment = new CartFragment();
     private AlertDialog mLogoutDialog;
+
+    private ArrayList<Product> mProducts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +66,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-
-        //Set Default Fragment to open up to:
-        setFragment(mHomeFragment);
+        new GetProductsTask(MainActivity.this).execute(5);
 
 
 
     }
-
     /**
      * Sets ups a fragment transaction;
      * @param fragment Fragment to start transaction
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         mLogoutDialog.dismiss();
         //Makes a new Intent to swap to
         Intent loginScreen = new Intent(this,LandingActivity.class);
-        //Stops any other activies running regarding this app.
+        //Stops any other activities running regarding this app.
         loginScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         //Starts the loginScreen intent (using the LandingActivity layout/Activity)
         startActivity(loginScreen);
@@ -218,5 +218,71 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         showLogoutDialog();
+    }
+
+    private void addProduct(int id, String name, String description){
+        this.mProducts.add(new Product(id,name,description));
+    }
+
+    private class GetProductsTask extends AsyncTask<Integer,Void,ArrayList<Product>>{
+        private MainActivity mActivity;
+        GetProductsTask(MainActivity activity){
+            this.mActivity = activity;
+        }
+        /**
+         * Override this method to perform a computation on a background thread. The
+         * specified parameters are the parameters passed to {@link #execute}
+         * by the caller of this task.
+         * <p>
+         * This method can call {@link #publishProgress} to publish updates
+         * on the UI thread.
+         *
+         * @param count The parameters of the task.
+         * @return A result, defined by the subclass of this task.
+         * @see #onPreExecute()
+         * @see #onPostExecute
+         * @see #publishProgress
+         */
+        @Override
+        protected ArrayList<Product> doInBackground(Integer... count) {
+            ArrayList<Product> products = new ArrayList<>();
+            //TODO: Replace this with fetching actual products.
+            for(int index = 0; index <= 5; index++){
+                products.add(new Product(index,"Product "+ index,"Some Random Description"));
+            }
+            return products;
+        }
+
+        /**
+         * Runs on the UI thread before {@link #doInBackground}.
+         *
+         * @see #onPostExecute
+         * @see #doInBackground
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        /**
+         * <p>Runs on the UI thread after {@link #doInBackground}. The
+         * specified result is the value returned by {@link #doInBackground}.</p>
+         * <p>
+         * <p>This method won't be invoked if the task was cancelled.</p>
+         *
+         * @param products The result of the operation computed by {@link #doInBackground}.
+         * @see #onPreExecute
+         * @see #doInBackground
+         * @see #onCancelled(Object)
+         */
+        @Override
+        protected void onPostExecute(ArrayList<Product> products) {
+            super.onPostExecute(products);
+            mActivity.mProducts = products;
+            mActivity.mUser.addOrder(products.get(1));
+
+            //Open Home Fragment
+            mActivity.setFragment(mActivity.mHomeFragment);
+        }
     }
 }
