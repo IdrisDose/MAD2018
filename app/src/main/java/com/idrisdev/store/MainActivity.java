@@ -10,11 +10,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.idrisdev.store.fragments.CartFragment;
+import com.idrisdev.store.fragments.AccountFragment;
 import com.idrisdev.store.fragments.HomeFragment;
 import com.idrisdev.store.fragments.ProductsFragment;
 import com.idrisdev.store.fragments.TicketsFragment;
@@ -30,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment mHomeFragment = new HomeFragment();
     private ProductsFragment mProductsFragment = new ProductsFragment();
     private TicketsFragment mTicketsFragment = new TicketsFragment();
-    private CartFragment mCartFragment = new CartFragment();
+    private AccountFragment mAccountFragment = new AccountFragment();
     private AlertDialog mLogoutDialog;
-
     private ArrayList<Product> mProducts;
+    private Bundle mBundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,24 +52,23 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Get the user object which should be parsed into the Activity from either registration or login form (LandingActivity)
+
+
         Bundle extras = getIntent().getExtras();
-        if(extras != null){
+        if (extras != null) {
             this.mUser = extras.getParcelable("user");
-
-            if(this.mUser == null){
-                Log.e("MAD", "Error retrieving user");
-            }else{
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("user",this.mUser);
-                mHomeFragment.setArguments(bundle);
-            }
-
+        }else{
+            this.mUser = new User(0,"null","null");
         }
+
+
+        //Gets products from the server
+        // TODO: add actual server capabilities
         new GetProductsTask(MainActivity.this).execute(5);
 
 
-
     }
+
     /**
      * Sets ups a fragment transaction;
      * @param fragment Fragment to start transaction
@@ -95,21 +93,55 @@ public class MainActivity extends AppCompatActivity {
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()){
                         case R.id.navigation_home:
-                            setFragment(mHomeFragment);
+                            openHomeFragment();
                             return true;
                         case R.id.navigation_products:
-                            setFragment(mProductsFragment);
+                            openProductFragment();
                             return true;
                         case R.id.navigation_tickets:
-                            setFragment(mTicketsFragment);
+                            openTicketFragment();
                             return true;
-                        case R.id.navigation_cart:
-                            setFragment(mCartFragment);
+                        case R.id.navigation_account:
+                            openAccountFragment();
                             return true;
                     }
                     return false;
                 }
             };
+
+
+
+    private void openHomeFragment(){
+        mBundle = new Bundle();
+        mBundle.putParcelable("user",this.mUser);
+
+        mHomeFragment.setArguments(mBundle);
+        setFragment(mHomeFragment);
+    }
+
+    private void openProductFragment() {
+        mBundle = new Bundle();
+        mBundle.putParcelable("user",this.mUser);
+        mBundle.putParcelableArrayList("products",mProducts);
+
+        mProductsFragment.setArguments(mBundle);
+        setFragment(mProductsFragment);
+    }
+    private void openTicketFragment(){
+        mBundle = new Bundle();
+        mBundle.putParcelable("user",this.mUser);
+
+        mTicketsFragment.setArguments(mBundle);
+        setFragment(mTicketsFragment);
+    }
+
+    private void openAccountFragment(){
+        mBundle = new Bundle();
+        mBundle.putParcelable("user",this.mUser);
+
+        mTicketsFragment.setArguments(mBundle);
+        setFragment(mTicketsFragment);
+    }
 
 
     /**
@@ -169,10 +201,17 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_action_logout:
                 showLogoutDialog();
                 return true;
-
+            case R.id.menu_action_cart:
+                showCartActivity();
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showCartActivity() {
+        Intent settingsScreen = new Intent(this,SettingsActivity.class);
+        settingsScreen.putExtra("user",this.mUser);
+        startActivity(settingsScreen);
     }
 
     public void openSettings() {
@@ -280,9 +319,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(products);
             mActivity.mProducts = products;
             mActivity.mUser.addOrder(products.get(1));
-
-            //Open Home Fragment
-            mActivity.setFragment(mActivity.mHomeFragment);
+            openHomeFragment();
         }
     }
 }

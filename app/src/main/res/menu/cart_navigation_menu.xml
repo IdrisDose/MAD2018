@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/cart_home"
+        android:title="@string/title_cart"/>
+    <item
+        android:id="@+id/cart_checkout"
+        android:title="@string/title_checkout"/>
+</menu>

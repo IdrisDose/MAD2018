@@ -1,16 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ProductsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/product_fragment_title"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/products_fragment_text" />
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/default_margin_size"
+        android:layout_marginLeft="@dimen/default_margin_size">
+        <TextView
+            android:id="@+id/product_fragment_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="32sp"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:text="@string/products_fragment_text"/>
 
+        <LinearLayout
+            android:id="@+id/product_all_action_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin_size"
+            android:orientation="vertical"
+            android:layout_below="@id/product_fragment_title">
 
-</RelativeLayout>
+            <TextView
+                android:id="@+id/product_all_count"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/product_all_count"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="16sp"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/product_view_all_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/product_view_all_action"
+                android:gravity="center"
+                android:layout_gravity="center"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/product_fragment_owned_products"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/product_all_action_container"
+            android:text="@string/product_owned_title"
+            android:layout_marginTop="@dimen/default_margin_size" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/products_fragment_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/product_fragment_owned_products">
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+</ScrollView>

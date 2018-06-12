@@ -16,6 +16,7 @@ public class User implements Parcelable{
     private boolean mActive;
     private String mPassword;
     private ArrayList<Product> mOrders;
+    private Cart mCart;
 
 
     /**
@@ -128,6 +129,22 @@ public class User implements Parcelable{
      */
     public void addOrder(Product product){
         this.mOrders.add(product);
+    }
+
+    /**
+     * Gets the user's owned products
+     * @return mOrders OwnedProducts
+     */
+    public ArrayList<Product> getOrders() {
+        return mOrders;
+    }
+
+    public Cart getCart(){
+        return this.mCart;
+    }
+
+    public void setCart(Cart cart) {
+        this.mCart = cart;
     }
 
     /**
