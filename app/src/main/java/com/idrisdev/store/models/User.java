@@ -130,6 +130,13 @@ public class User implements Parcelable{
         this.mOrders.add(product);
     }
 
+    /**
+     * Gets the size of this users order list
+     * @return the size of mOrders.
+     */
+    public int getOrderCount(){
+        return this.mOrders.size();
+    }
     //TODO: Remove this later
     public void setPassword(String password){
         this.mPassword = password;
