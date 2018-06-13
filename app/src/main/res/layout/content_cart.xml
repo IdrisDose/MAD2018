@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:id="@+id/cart_activity_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cart_activity_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -22,21 +21,23 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:visibility="gone">
+
             <ProgressBar
                 android:id="@+id/progress_bar"
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="8dp" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/progress_bar"
-                android:text="@string/action_logging_in"
                 android:gravity="center"
-                android:textSize="24sp"
-                android:textColor="@color/colorOffWhite"/>
+                android:text="@string/cart_purchase_action"
+                android:textColor="@color/colorOffWhite"
+                android:textSize="24sp" />
         </RelativeLayout>
 
         <LinearLayout
@@ -44,27 +45,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/cart_activity_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:textSize="32sp"
+                android:text="@string/cart_activity_title"
                 android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:text="@string/cart_activity_title"/>
+                android:textSize="32sp"
+                android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/cart_item_container_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/cart_items_title"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/cart_items_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_margin_size"/>
+                android:layout_marginTop="@dimen/small_margin_size" />
         </LinearLayout>
 
     </RelativeLayout>

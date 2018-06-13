@@ -3,21 +3,32 @@ package com.idrisdev.store.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-/**
- * Created by Idris on 6/5/2018.
- */
-
 public class Product implements Parcelable{
 
+    @SerializedName("id")
     private int mId;
+
+    @SerializedName("name")
     private String mName;
+
+    @SerializedName("description")
     private String mDescription;
+
+    @SerializedName("price")
     private double mPrice;
+
+    @SerializedName("hidden")
     private boolean mHidden;
+
+    @SerializedName("free")
     private boolean mFree;
+
+    @SerializedName("new")
     private boolean mNew;
 
     /**
@@ -39,6 +50,12 @@ public class Product implements Parcelable{
         this.mNew = isNew;
     }
 
+    /**
+     * Basic constructor for the Product Object
+     * @param id int
+     * @param name String
+     * @param description String
+     */
     public Product(int id, String name, String description){
         this.mId = id;
         this.mName = name;
@@ -49,63 +66,123 @@ public class Product implements Parcelable{
         this.mNew = id % 2 > 0;
     }
 
-
+    /**
+     * Used to get the ID of the Product
+     * @return int ID
+     */
     public int getId() {
         return mId;
     }
+
+    /**
+     * Used to set the ID of the Product
+     * @param mId int
+     */
 
     public void setId(int mId) {
         this.mId = mId;
     }
 
+    /**
+     * Used to get the Name of the product
+     * @return String
+     */
     public String getName() {
         return mName;
     }
 
+    /**
+     * Used to set the Name of the product
+     * @param mName String
+     */
     public void setName(String mName) {
         this.mName = mName;
     }
 
+    /**
+     * Used to get the Product's Description
+     * @return String
+     */
     public String getDescription() {
         return mDescription;
     }
 
+    /**
+     *Used to set the Product's Description
+     * @param mDescription String
+     */
     public void setDescription(String mDescription) {
         this.mDescription = mDescription;
     }
 
+    /**
+     * Used to get the Product's Price
+     * @return double
+     */
     public double getPrice() {
         return mPrice;
     }
+
+    /**
+     * Used to set the Product's Display (pretty/formatted) Price
+     * @return String
+     */
     public String getDisplayPrice(){
         return "$"+this.mPrice;
     }
 
+    /**
+     * Used to set the Product's Price
+     * @param mPrice double
+     */
     public void setPrice(double mPrice) {
         this.mPrice = mPrice;
     }
 
-
+    /**
+     * Used to check if the product is hidden
+     * @return boolean
+     */
     public boolean isHidden() {
         return mHidden;
     }
 
+    /**
+     * Used to set if the product is hiddden
+     * @param mHidden boolean
+     */
     public void setHidden(boolean mHidden) {
         this.mHidden = mHidden;
     }
 
+    /**
+     * Used to check if the product is Free
+     * @return boolean
+     */
     public boolean isFree() {
         return mFree;
     }
 
+    /**
+     * Used to check if the product is New
+     * @return boolean
+     */
     public boolean isNew(){
         return mNew;
     }
 
+    /**
+     * Used to set if the product is new
+     * @param isNew boolean
+     */
     public void setNew(boolean isNew){
         this.mNew = isNew;
     }
 
+    /**
+     * Used to set if the product is free
+     * @param mFree boolean
+     */
     public void setFree(boolean mFree) {
         this.mFree = mFree;
     }

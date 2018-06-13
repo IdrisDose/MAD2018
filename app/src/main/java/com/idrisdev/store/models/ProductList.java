@@ -5,20 +5,90 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-/**
- * Created by Idris on 6/13/2018.
- */
 public class ProductList implements Parcelable {
     private ArrayList<Product> mProducts;
 
+    /**
+     * Basic Constructor for the ProductList class
+     */
     public ProductList(){
         this.mProducts = new ArrayList<>();
     }
 
+    /**
+     * Basic Constructor for the ProductList Class
+     * @param products ArrayList<Product>
+     */
     public ProductList(ArrayList<Product> products){
         this.mProducts = products;
     }
 
+    /**
+     * Used to get the free product in the ProductList
+     * @return ArrayList<Product>
+     */
+    public ArrayList<Product> getFreeProducts(){
+        ArrayList<Product> freeProducts = new ArrayList<>();
+
+        //Foreach product in this ProductList check if free
+        // if product is free add to freeProducts arraylist
+        // if not next item
+        for (Product product : this.mProducts){
+            if(product.isFree()){
+                freeProducts.add(product);
+            }
+        }
+
+        return freeProducts;
+    }
+
+    /**
+     * Used to get the new products in the ProductList
+     * @return ArrayList<Product>
+     */
+    public ArrayList<Product> getNewProducts(){
+        ArrayList<Product> newProducts = new ArrayList<>();
+
+        //Foreach product in this ProductList check if free
+        // if product is free add to freeProducts arraylist
+        // if not next item
+        for (Product product : this.mProducts){
+            if(product.isNew()){
+                newProducts.add(product);
+            }
+        }
+
+        return newProducts;
+    }
+
+    /**
+     * Used to get all product in the current ProductList
+     * @return ArrayList<Product>
+     */
+    public ArrayList<Product> getAllProducts(){
+        return this.mProducts;
+    }
+
+    /**
+     * Used to add a product to the ProductList
+     * @param product Product
+     */
+    public void addProduct(Product product){
+        this.mProducts.add(product);
+    }
+
+    /**
+     * Used to get the ProductList size
+     * @return int
+     */
+    public int getSize(){
+        return mProducts.size();
+    }
+
+
+    /*
+        All Parcelable Related functions (including constructor) under this line
+     */
 
     protected ProductList(Parcel in) {
         mProducts = in.createTypedArrayList(Product.CREATOR);
@@ -35,47 +105,6 @@ public class ProductList implements Parcelable {
             return new ProductList[size];
         }
     };
-
-    public ArrayList<Product> getFreeProducts(){
-        ArrayList<Product> freeProducts = new ArrayList<>();
-
-        //Foreach product in this ProductList check if free
-        // if product is free add to freeProducts arraylist
-        // if not next item
-        for (Product product : this.mProducts){
-            if(product.isFree()){
-                freeProducts.add(product);
-            }
-        }
-
-        return freeProducts;
-    }
-
-    public ArrayList<Product> getNewProducts(){
-        ArrayList<Product> newProducts = new ArrayList<>();
-
-        //Foreach product in this ProductList check if free
-        // if product is free add to freeProducts arraylist
-        // if not next item
-        for (Product product : this.mProducts){
-            if(product.isNew()){
-                newProducts.add(product);
-            }
-        }
-
-        return newProducts;
-    }
-
-    public ArrayList<Product> getAllProducts(){
-        return this.mProducts;
-    }
-    public void addProduct(Product product){
-        this.mProducts.add(product);
-    }
-
-    public int getSize(){
-        return mProducts.size();
-    }
 
     /**
      * Describe the kinds of special objects contained in this Parcelable

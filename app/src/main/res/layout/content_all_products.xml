@@ -8,30 +8,29 @@
     tools:context=".AllProductsActivity"
     tools:showIn="@layout/activity_all_products">
 
-        <!-- TODO: Update blank fragment layout -->
-        <RelativeLayout
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin_size"
+        android:layout_marginRight="@dimen/default_margin_size">
+
+        <TextView
+            android:id="@+id/all_products_activity_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/default_margin_size"
-            android:layout_marginLeft="@dimen/default_margin_size">
+            android:gravity="center_horizontal"
+            android:text="@string/products_title_with_count"
+            android:textColor="@color/colorPrimary"
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/all_products_activity_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textSize="32sp"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold"
-                android:text="@string/products_title_with_count"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/all_products_activity_rv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/all_products_activity_title">
-            </android.support.v7.widget.RecyclerView>
-        </RelativeLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/all_products_activity_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/all_products_activity_title"></android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
 
 
 </ScrollView>

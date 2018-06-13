@@ -1,52 +1,65 @@
 package com.idrisdev.store.models;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 
-import com.idrisdev.store.LandingActivity;
-import com.idrisdev.store.SettingsActivity;
+import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 
-/**
- * Created by Idris on 6/10/2018.
- */
 public class Auth {
+    @SerializedName("email")
+    private String mUsername;
 
-    private String mEmail;
+    @SerializedName("password")
     private String mPassword;
-    private User mUser;
 
-    public Auth(String email, String password){
-        this.mEmail = email;
-        this.mPassword = password;
-    }
-
-    public void setUser(User user){
-        this.mUser = user;
+    /**
+     * Basic Constructor for Auth
+     * @param username
+     * @param password
+     */
+    public Auth(String username, String password){
+        mUsername = username;
+        mPassword = password;
     }
 
     /**
-     * Attempts to login using the credentials provided
-     * @param password String - the entered password for validation.
-     * @return true if user is validaded/authenticated.
+     * Gets the Auth's Username
+     * @return String the Auth's username
      */
-    public boolean attemptLogin(String password){
-        //TODO: Update this method to actually login so we can properly authenticate.
-        boolean isValid = this.mPassword.equals(password);
-        if(isValid){
-            this.mUser.setOrders(new ArrayList<>());
-            this.mUser.setActive(isValid);
-        }
-        return isValid;
+    public String getUsername() {
+        return mUsername;
     }
 
+    /**
+     * Sets the Auth's username
+     * @param username String desired username
+     */
+    public void setUsername(String username) {
+        this.mUsername = username;
+    }
 
-    public boolean isEmailValid() {
-        return this.mEmail.equals(mUser.getEmail());
+    /**
+     * Gets the Auth's Password
+     * @return String the Auth's Password
+     */
+    public String getPassword() {
+        return mPassword;
+    }
+
+    /**
+     * Sets the Auth's Password
+     * @param password String the desired password
+     */
+    public void setPassword(String password) {
+        this.mPassword = password;
+    }
+
+    /**
+     * Checks see if the password and username is valid
+     * @return if they are valid then return true else false
+     */
+    public boolean isValid(){
+        //Also known as IsEmpty?
+        return TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword);
     }
 }

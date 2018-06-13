@@ -15,14 +15,17 @@ import com.idrisdev.store.R;
 import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.ProductList;
 
-/**
- * Created by Idris on 6/6/2018.
- */
+
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
-    private static final String TAG = "MAD";
+    private static final String TAG = "StoreApp";
     private Context mContext;
     private ProductList mProducts;
 
+    /**
+     * ProductAdapter basic constructor
+     * @param context the context needed to be targeted
+     * @param products a product list to be displayed
+     */
     public ProductAdapter(Context context, ProductList products){
         this.mContext = context;
         this.mProducts = products;
@@ -87,6 +90,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         // Sets the onClickListener of a product item to change to a 'more details' activity.
         // USES: a Lamba Expression with input of 'view'
         holder.mProductLayout.setOnClickListener(view -> {
+            //Doesn't need an action because we can only add to cart not remove
             Snackbar.make(view, "No Available Option", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         });

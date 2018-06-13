@@ -26,6 +26,11 @@
         <item name="backgroundTint">@color/colorSecondary</item>
     </style>
 
+    <style name="ErrorText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorError</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

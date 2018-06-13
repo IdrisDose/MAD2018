@@ -6,9 +6,6 @@
         android:title="@string/title_cart" />
 
     <item
-        android:id="@+id/menu_action_settings"
-        android:title="@string/title_settings" />
-    <item
         android:id="@+id/menu_action_logout"
         android:title="@string/title_logout" />
 

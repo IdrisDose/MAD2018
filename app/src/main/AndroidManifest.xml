@@ -25,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingsActivity" />
         <activity
             android:name=".CartActivity"
             android:theme="@style/AppTheme" />
@@ -35,6 +34,7 @@
         <activity
             android:name=".AllProductsActivity"
             android:theme="@style/AppTheme" />
+
     </application>
 
 </manifest>

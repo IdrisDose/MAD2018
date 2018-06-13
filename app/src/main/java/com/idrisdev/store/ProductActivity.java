@@ -12,7 +12,6 @@ import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.User;
 
 public class ProductActivity extends AppCompatActivity {
-    private User mUser;
     private Product mProduct;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +20,13 @@ public class ProductActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            this.mUser = extras.getParcelable("user");
-            this.mProduct = extras.getParcelable("product");
+        //Handles what happens to any arguments passed into this activity via it's Intent (assigned by previous activities)
+        Bundle arguments = getIntent().getExtras();
+        if (arguments != null) {
+            //If arguments bundle is not empty assign this classes mProduct to the parceable
+            this.mProduct = arguments.getParcelable("product");
         }else{
-            this.mUser = new User(0,"null","null");
+            //Else blank product
             this.mProduct = new Product(0, "null","null");
         }
 
@@ -39,33 +39,13 @@ public class ProductActivity extends AppCompatActivity {
         productDescription.setText(mProduct.getDescription());
 
         FloatingActionButton addToCartBtn = findViewById(R.id.add_to_cart_btn);
-//        addToCartBtn.setOnClickListener(new AddToCartButtonClick(this));
-        addToCartBtn.setOnClickListener(new AddToCartButtonClick(this));
+
+        //Fires when the add to cart button is pressed.
+        addToCartBtn.setOnClickListener(button->{
+            User.getInstance().getCart().addToCart(this.mProduct);
+            Snackbar.make(button, "Added to cart", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        });
     }
-
-    public void addToCart(View button) {
-        this.mUser.getCart().addToCart(this.mProduct);
-        Snackbar.make(button, "Added to cart", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
-    }
-
-
-    class AddToCartButtonClick implements View.OnClickListener{
-
-        private ProductActivity mProductActivity;
-        AddToCartButtonClick(ProductActivity productActivity){
-            this.mProductActivity = productActivity;
-        }
-        /**
-         * Called when a view has been clicked.
-         *
-         * @param button The view that was clicked.
-         */
-        @Override
-        public void onClick(View button) {
-            this.mProductActivity.addToCart(button);
-        }
-    }
-
 
 }

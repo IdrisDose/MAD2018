@@ -10,22 +10,32 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
 import com.idrisdev.store.fragments.AccountFragment;
 import com.idrisdev.store.fragments.HomeFragment;
 import com.idrisdev.store.fragments.ProductsFragment;
 import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.ProductList;
 import com.idrisdev.store.models.User;
+import com.idrisdev.store.services.StoreWebService;
+import com.idrisdev.store.utils.HttpHelper;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import retrofit2.Call;
 
 public class MainActivity extends AppCompatActivity {
-
-    private User mUser;
-
+    private static final String TAG = "StoreApp";
+    private static User sUser;
     private HomeFragment mHomeFragment = new HomeFragment();
     private ProductsFragment mProductsFragment = new ProductsFragment();
     private AccountFragment mAccountFragment = new AccountFragment();
@@ -33,10 +43,18 @@ public class MainActivity extends AppCompatActivity {
     private ProductList mProducts;
     private Bundle mBundle;
 
+    private RelativeLayout mMainContainer;
+    private RelativeLayout mMainProgress;
+    private FrameLayout mFrameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mMainContainer = findViewById(R.id.main_container);
+        mMainProgress = findViewById(R.id.main_progress_container);
+        mFrameLayout = findViewById(R.id.main_frame);
 
         //Setup Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -48,22 +66,17 @@ public class MainActivity extends AppCompatActivity {
         //Handle Bottom Navigation Item Clicks
         bottomNavigation.setOnNavigationItemSelectedListener(onItemSelected);
 
-
-
         //Get the user object which should be parsed into the Activity from either registration or login form (LandingActivity)
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            this.mUser = extras.getParcelable("user");
-        }else{
-            this.mUser = new User(0,"null","null");
-        }
+        sUser = User.getInstance();
 
+        //getTheRequestData
+        new GetProductsTask().execute();
+    }
 
-        //Gets products from the server
-        // TODO: add actual server capabilities
-        new GetProductsTask(MainActivity.this).execute(5);
-
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy: MainActivity");
     }
 
     /**
@@ -76,6 +89,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    /**
+     * Handles what happens when a BottomNav Item is tapped/selected
+     */
     private BottomNavigationView.OnNavigationItemSelectedListener onItemSelected =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 /**
@@ -104,28 +120,30 @@ public class MainActivity extends AppCompatActivity {
             };
 
 
-
+    /**
+     * Opens the Home fragment which is basically a landing page once logged in
+     */
     private void openHomeFragment(){
         mBundle = new Bundle();
-        mBundle.putParcelable("user",this.mUser);
-
         mHomeFragment.setArguments(mBundle);
         setFragment(mHomeFragment);
     }
 
+    /**
+     * Opens the Product Fragment showing the users owned products and allows the user to browse all products
+     */
     private void openProductFragment() {
         mBundle = new Bundle();
-        mBundle.putParcelable("user",this.mUser);
         mBundle.putParcelable("products",mProducts);
-
         mProductsFragment.setArguments(mBundle);
         setFragment(mProductsFragment);
     }
 
+    /**
+     * Opens the Account Fragment to show user details and allows the user to change their detaisl
+     */
     private void openAccountFragment(){
         mBundle = new Bundle();
-        mBundle.putParcelable("user",this.mUser);
-
         mAccountFragment.setArguments(mBundle);
         setFragment(mAccountFragment);
     }
@@ -182,9 +200,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.menu_action_settings:
-                openSettings();
-                return true;
             case R.id.menu_action_logout:
                 showLogoutDialog();
                 return true;
@@ -195,20 +210,19 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+    /**
+     * Shows the Cart Activity so that the user can checkout
+     */
     private void showCartActivity() {
         Intent cartScreen = new Intent(this,CartActivity.class);
-        cartScreen.putExtra("user",this.mUser);
         startActivity(cartScreen);
     }
 
-    public void openSettings() {
-        //TODO: Polish this.
-        Intent settingsScreen = new Intent(this,SettingsActivity.class);
-        settingsScreen.putExtra("user",this.mUser);
-        startActivity(settingsScreen);
-    }
 
-
+    /**
+     * Handles what happens when you logout
+     */
     public void handleLogout(){
         mLogoutDialog.dismiss();
         //Makes a new Intent to swap to
@@ -246,11 +260,47 @@ public class MainActivity extends AppCompatActivity {
         showLogoutDialog();
     }
 
-    private class GetProductsTask extends AsyncTask<Integer,Void,ArrayList<Product>>{
-        private MainActivity mActivity;
-        GetProductsTask(MainActivity activity){
-            this.mActivity = activity;
+    /**
+     * Gets the initial request data which contains the product list.
+     * @return ArrayList of Products
+     */
+    private ArrayList<Product> getRequestData(){
+        try {
+            StoreWebService webService =
+                    StoreWebService.retrofit.create(StoreWebService.class);
+            Call<Product[]> callProducts = webService.products();
+            Product[] products = callProducts.execute().body();
+            return new ArrayList<>(Arrays.asList(products));
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return null;
+    }
+
+    /**
+     * Gets the User's Orders also known as Owned Products
+     * @return
+     */
+    private ArrayList<Product> getUserData(){
+        Product[] products = new Product[]{};
+
+        try {
+            Gson gson = new Gson();
+            String test = HttpHelper.downloadUrlGet("orders/"+User.getInstance().getId());
+            products = gson.fromJson(test,Product[].class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return  new ArrayList<>(Arrays.asList(products));
+    }
+
+    /**
+     * The AsyncTask used to get the ProductList
+     */
+    private class GetProductsTask extends AsyncTask<Void,Void,ArrayList<Product>>{
+
         /**
          * Override this method to perform a computation on a background thread. The
          * specified parameters are the parameters passed to {@link #execute}
@@ -259,20 +309,15 @@ public class MainActivity extends AppCompatActivity {
          * This method can call {@link #publishProgress} to publish updates
          * on the UI thread.
          *
-         * @param count The parameters of the task.
+         * @param voids The parameters of the task.
          * @return A result, defined by the subclass of this task.
          * @see #onPreExecute()
          * @see #onPostExecute
          * @see #publishProgress
          */
         @Override
-        protected ArrayList<Product> doInBackground(Integer... count) {
-            ArrayList<Product> products = new ArrayList<>();
-            //TODO: Replace this with fetching actual products.
-            for(int index = 0; index <= 5; index++){
-                products.add(new Product(index,"Product "+ index,"Some Random Description"));
-            }
-            return products;
+        protected ArrayList<Product> doInBackground(Void... voids) {
+            return getRequestData();
         }
 
         /**
@@ -300,9 +345,72 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Product> products) {
             super.onPostExecute(products);
-            mActivity.mProducts = new ProductList(products);
-            mActivity.mUser.addOrder(products.get(0));
-            openHomeFragment();
+            mProducts = new ProductList(products);
+
+            new GetUserProducts().execute();
         }
     }
+
+    /**
+     * The AsyncTask used to get the users owned products
+     */
+    private class GetUserProducts extends AsyncTask<Void,Void,ArrayList<Product>>{
+        /**
+         * Runs on the UI thread before {@link #doInBackground}.
+         *
+         * @see #onPostExecute
+         * @see #doInBackground
+         */
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            mMainContainer.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            mMainProgress.setVisibility(View.VISIBLE);
+            mFrameLayout.setVisibility(View.GONE);
+        }
+
+        /**
+         * <p>Runs on the UI thread after {@link #doInBackground}. The
+         * specified result is the value returned by {@link #doInBackground}.</p>
+         * <p>
+         * <p>This method won't be invoked if the task was cancelled.</p>
+         *
+         * @param products The result of the operation computed by {@link #doInBackground}.
+         * @see #onPreExecute
+         * @see #doInBackground
+         * @see #onCancelled(Object)
+         */
+        @Override
+        protected void onPostExecute(ArrayList<Product> products) {
+            super.onPostExecute(products);
+
+            User.getInstance().setOrders(products);
+
+            mMainContainer.setBackgroundColor(getResources().getColor(R.color.colorWhite));
+            mMainProgress.setVisibility(View.GONE);
+            mFrameLayout.setVisibility(View.VISIBLE);
+            openHomeFragment();
+        }
+
+        /**
+         * Override this method to perform a computation on a background thread. The
+         * specified parameters are the parameters passed to {@link #execute}
+         * by the caller of this task.
+         * <p>
+         * This method can call {@link #publishProgress} to publish updates
+         * on the UI thread.
+         *
+         * @param voids The parameters of the task.
+         * @return A result, defined by the subclass of this task.
+         * @see #onPreExecute()
+         * @see #onPostExecute
+         * @see #publishProgress
+         */
+        @Override
+        protected ArrayList<Product> doInBackground(Void... voids) {
+            return getUserData();
+        }
+    }
+
 }

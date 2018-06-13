@@ -1,35 +1,50 @@
 package com.idrisdev.store.models;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-/**
- * Created by Idris on 6/5/2018.
- */
-
-public class User implements Parcelable{
+public class User{
+    @SerializedName("id")
     private int mId;
+
+    @SerializedName("name")
     private String mName;
+
+    @SerializedName("email")
     private String mEmail;
+
+    @SerializedName("active")
     private boolean mActive;
-    private String mPassword;
+
+    //ProductList Orders used to store OwnProducts
     private ProductList mOrders;
+
+    //Cart used to store this sessions cart
     private Cart mCart;
 
+    //Used for the singleton
+    private static User instance;
 
     /**
-     * Basic Constructor for the User Object/Model
-     * @param id int - ID of the User
-     * @param name String - Name of the User
-     * @param email String - Email of the User
+     * Returns a static instance of the User Class
+     * @return User
      */
-    public User(int id, String name, String email) {
-        this.mId = id;
-        this.mName = name;
-        this.mEmail = email;
+    public static User getInstance(){
+        if(instance == null){
+            instance = new User();
+        }
+        return instance;
+    }
+
+    /**
+     * Empty Constructor for Singleton
+     */
+    private User(){
+        //Empty for singleton
         mCart = new Cart();
+        mOrders = new ProductList();
+        mActive = true;
     }
 
     /**
@@ -120,10 +135,18 @@ public class User implements Parcelable{
         return mOrders;
     }
 
+    /**
+     * Gets the user's Cart
+     * @return Cart
+     */
     public Cart getCart(){
         return this.mCart;
     }
 
+    /**
+     * Sets the user's cart
+     * @param cart Cart
+     */
     public void setCart(Cart cart) {
         this.mCart = cart;
     }
@@ -135,59 +158,20 @@ public class User implements Parcelable{
     public int getOrderCount(){
         return this.mOrders.getSize();
     }
-    //TODO: Remove this later
-    public void setPassword(String password){
-        this.mPassword = password;
-    }
 
-    //TODO: Remove;
-    public String getPassword(){ return this.mPassword; }
-
+    /**
+     * Returns a pretty/formatted version of IsActive used for display
+     * @return String
+     */
     public String getActivePretty(){
         return this.mActive ? "Active" : "Deactive";
     }
 
-     /*
-        All Parcelable Related functions (including constructor) under this line
+    /**
+     * Used to statically place the productlist cart items into orders productlist
      */
-
-    private User(Parcel in) {
-        mId = in.readInt();
-        mName = in.readString();
-        mEmail = in.readString();
-        mActive = in.readByte() != 0;
-        mOrders = in.readParcelable(ProductList.class.getClassLoader());
-        mCart = in.readParcelable(Cart.class.getClassLoader());
+    public void purchaseCart(){
+        ProductList myCart = this.mCart.getCartItems();
+        this.mOrders.getAllProducts().addAll(myCart.getAllProducts());
     }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int flags) {
-        parcel.writeInt(mId);
-        parcel.writeString(mName);
-        parcel.writeString(mEmail);
-        parcel.writeByte((byte) (mActive ? 1 : 0));
-        parcel.writeParcelable(mOrders,flags);
-        parcel.writeParcelable(mCart,flags);
-    }
-
-
-
 }

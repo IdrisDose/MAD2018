@@ -19,19 +19,22 @@ import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.ProductList;
 import com.idrisdev.store.models.User;
 
-/**
- * Created by Idris on 6/6/2018.
- */
+
 public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.ViewHolder>{
-    private static final String TAG = "MAD";
+    private static final String TAG = "StoreApp";
     private Context mContext;
     private ProductList mProducts;
-    private User mUser;
+    private static User sUser;
 
-    public AllProductAdapter(Context context, ProductList products, User user){
+    /**
+     * AllProductAdapter Constructor
+     * @param context the context needed to be parsed in
+     * @param products the ProductList to be displayed
+     */
+    public AllProductAdapter(Context context, ProductList products){
         this.mContext = context;
         this.mProducts = products;
-        this.mUser = user;
+        sUser = User.getInstance();
     }
 
     /**
@@ -93,9 +96,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
         // Sets the onClickListener of a product item to change to a 'more details' activity.
         // USES: a Lamba Expression with input of 'view'
         holder.mProductLayout.setOnClickListener(view -> {
-            // TODO: Change this so it shows a product screen/activity.
                 Intent productDetailsScreenIntent = new Intent(view.getContext(),ProductActivity.class);
-                productDetailsScreenIntent.putExtra("user", mUser);
                 productDetailsScreenIntent.putExtra("product",mProduct);
                 productDetailsScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(productDetailsScreenIntent);
