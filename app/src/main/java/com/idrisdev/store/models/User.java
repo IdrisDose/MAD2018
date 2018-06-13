@@ -15,7 +15,7 @@ public class User implements Parcelable{
     private String mEmail;
     private boolean mActive;
     private String mPassword;
-    private ArrayList<Product> mOrders;
+    private ProductList mOrders;
     private Cart mCart;
 
 
@@ -36,7 +36,7 @@ public class User implements Parcelable{
         mName = in.readString();
         mEmail = in.readString();
         mActive = in.readByte() != 0;
-        mOrders = in.createTypedArrayList(Product.CREATOR);
+        mOrders = in.readParcelable(ProductList.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -120,7 +120,7 @@ public class User implements Parcelable{
      * @param products List<Product>
      */
     public void setOrders(ArrayList<Product> products){
-        this.mOrders = products;
+        this.mOrders = new ProductList(products);
     }
 
     /**
@@ -128,14 +128,14 @@ public class User implements Parcelable{
      * @param product Product
      */
     public void addOrder(Product product){
-        this.mOrders.add(product);
+        this.mOrders.addProduct(product);
     }
 
     /**
      * Gets the user's owned products
      * @return mOrders OwnedProducts
      */
-    public ArrayList<Product> getOrders() {
+    public ProductList getOrders() {
         return mOrders;
     }
 
@@ -152,7 +152,7 @@ public class User implements Parcelable{
      * @return the size of mOrders.
      */
     public int getOrderCount(){
-        return this.mOrders.size();
+        return this.mOrders.getSize();
     }
     //TODO: Remove this later
     public void setPassword(String password){
@@ -172,12 +172,12 @@ public class User implements Parcelable{
     }
 
     @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    public void writeToParcel(Parcel parcel, int flags) {
         parcel.writeInt(mId);
         parcel.writeString(mName);
         parcel.writeString(mEmail);
         parcel.writeByte((byte) (mActive ? 1 : 0));
-        parcel.writeTypedList(mOrders);
+        parcel.writeParcelable(mOrders,flags);
     }
 
 

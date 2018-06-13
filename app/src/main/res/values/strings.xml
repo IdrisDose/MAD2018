@@ -40,7 +40,7 @@
 
     <!-- Fragments -->
     <string name="home_fragment_text">Welcome, %1$s</string>
-    <string name="products_fragment_text">Products Fragment</string>
+    <string name="products_fragment_text">Your Products</string>
 
     <!-- Global Strings -->
     <string name="user_product_count">You currently own: %1d products</string>
@@ -51,7 +51,7 @@
 
     <!-- Product Strings -->
     <string name="product_owned_title">Your owned Products: (%1$d  products)</string>
-    <string name="product_all_title">All Products: %1$d </string>
+    <string name="products_title_with_count">All Products: %1$d </string>
     <string name="product_view_all_action">View all products</string>
     <string name="product_name_string">Product Name: %1$s</string>
     <string name="product_price_string">Product Price: %1$s</string>
@@ -68,9 +68,5 @@
 
     <!-- Settings Strings -->
     <string name="settings_activity_title">Application Settings</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="title_activity_cart">CartActivity</string>
-    <string name="title_activity_product">ProductActivity</string>
 
 </resources>

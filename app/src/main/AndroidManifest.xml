@@ -28,12 +28,13 @@
         <activity android:name=".SettingsActivity" />
         <activity
             android:name=".CartActivity"
-            android:label="@string/title_activity_cart"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ProductActivity"
-            android:label="@string/title_activity_product"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AllProducts"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

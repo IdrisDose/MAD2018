@@ -38,13 +38,11 @@ public class AccountFragment extends Fragment {
 
         TextView userName = accountView.findViewById(R.id.account_name);
         TextView ownedProducts = accountView.findViewById(R.id.account_owned_products);
-        TextView openTickets = accountView.findViewById(R.id.account_open_tickets);
         TextView userEmail = accountView.findViewById(R.id.account_email);
         TextView userStatus = accountView.findViewById(R.id.account_status);
 
         userName.setText(getString(R.string.account_name,this.mUser.getName()));
         ownedProducts.setText(getString(R.string.user_product_count, this.mUser.getOrderCount()));
-        openTickets.setText(getString(R.string.user_open_ticket_count,0));
         userEmail.setText(getString(R.string.account_email_string,this.mUser.getEmail()));
         userStatus.setText(getString(R.string.account_status,this.mUser.getActivePretty()));
 

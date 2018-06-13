@@ -1,6 +1,7 @@
 package com.idrisdev.store.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.idrisdev.store.ProductActivity;
 import com.idrisdev.store.R;
 import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.ProductList;
@@ -19,12 +21,12 @@ import com.idrisdev.store.models.ProductList;
 /**
  * Created by Idris on 6/6/2018.
  */
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
+public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.ViewHolder>{
     private static final String TAG = "MAD";
     private Context mContext;
     private ProductList mProducts;
 
-    public ProductAdapter(Context context, ProductList products){
+    public AllProductAdapter(Context context, ProductList products){
         this.mContext = context;
         this.mProducts = products;
     }
@@ -87,7 +89,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         // Sets the onClickListener of a product item to change to a 'more details' activity.
         // USES: a Lamba Expression with input of 'view'
-        holder.mProductLayout.setOnClickListener(view -> createToastMessage("No Available Options"));
+        holder.mProductLayout.setOnClickListener(view -> {
+            // TODO: Change this so it shows a product screen/activity.
+                Intent productDetailsScreenIntent = new Intent(view.getContext(),ProductActivity.class);
+                productDetailsScreenIntent.putExtra("product",mProduct);
+                productDetailsScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(productDetailsScreenIntent);
+        });
     }
 
     /**

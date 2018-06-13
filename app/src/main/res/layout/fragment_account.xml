@@ -26,16 +26,6 @@
         android:gravity="center"
         android:text="@string/user_product_count"
         android:textSize="16sp"
-        android:layout_marginTop="@dimen/default_margin_size" />
-
-    <TextView
-        android:id="@+id/account_open_tickets"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/account_owned_products"
-        android:gravity="center"
-        android:text="@string/user_open_ticket_count"
-        android:textSize="16sp"
         android:layout_marginTop="@dimen/default_margin_size"/>
 
 
@@ -44,7 +34,7 @@
         android:id="@+id/account_details_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/account_open_tickets"
+        android:layout_below="@id/account_owned_products"
         android:layout_marginTop="@dimen/default_margin_size"
         android:orientation="vertical">
 

@@ -14,10 +14,8 @@ import android.widget.TextView;
 
 import com.idrisdev.store.R;
 import com.idrisdev.store.adapters.ProductAdapter;
-import com.idrisdev.store.models.Product;
+import com.idrisdev.store.models.ProductList;
 import com.idrisdev.store.models.User;
-
-import java.util.ArrayList;
 
 
 /**
@@ -25,9 +23,9 @@ import java.util.ArrayList;
  */
 public class ProductsFragment extends Fragment {
 
-    private ArrayList<Product> mProducts;
+    private ProductList mProducts;
     private User mUser;
-    private  RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
     private TextView mProductText;
     private TextView mOwnedProductsText;
 
@@ -45,7 +43,7 @@ public class ProductsFragment extends Fragment {
         Bundle bundle = this.getArguments();
         if(bundle != null){
              this.mUser = bundle.getParcelable("user");
-             this.mProducts = bundle.getParcelableArrayList("products");
+             this.mProducts = bundle.getParcelable("products");
         }
 
         mRecyclerView = productView.findViewById(R.id.products_fragment_rv);
@@ -58,7 +56,7 @@ public class ProductsFragment extends Fragment {
         mOwnedProductsText.setText(getString(R.string.product_owned_title,mUser.getOrderCount()));
 
         mProductText = productView.findViewById(R.id.product_all_count);
-        mProductText.setText(getString(R.string.product_all_title,mProducts.size()));
+        mProductText.setText(getString(R.string.products_title_with_count,mProducts.getSize()));
         return productView;
     }
 

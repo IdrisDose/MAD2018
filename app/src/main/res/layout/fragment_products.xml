@@ -33,17 +33,19 @@
                 android:id="@+id/product_all_count"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/product_all_title"
+                android:text="@string/products_title_with_count"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:textSize="16sp"/>
 
             <android.support.v7.widget.AppCompatButton
+                android:id="@+id/view_all_products_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/product_view_all_action"
                 android:gravity="center"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                style="@style/ButtonSecondary"/>
         </LinearLayout>
 
         <TextView

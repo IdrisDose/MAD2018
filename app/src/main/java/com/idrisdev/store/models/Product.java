@@ -18,6 +18,7 @@ public class Product implements Parcelable{
     private double mPrice;
     private boolean mHidden;
     private boolean mFree;
+    private boolean mNew;
 
     /**
      * Basic constructor for the Product Object
@@ -28,13 +29,14 @@ public class Product implements Parcelable{
      * @param hidden boolean
      * @param free boolean
      */
-    public Product(int id, String name, String description, double price, boolean hidden, boolean free) {
+    public Product(int id, String name, String description, double price, boolean hidden, boolean free, boolean isNew) {
         this.mId = id;
         this.mName = name;
         this.mDescription = description;
         this.mPrice = price;
         this.mHidden = hidden;
         this.mFree = free;
+        this.mNew = isNew;
     }
 
     public Product(int id, String name, String description){
@@ -42,9 +44,9 @@ public class Product implements Parcelable{
         this.mName = name;
         this.mDescription = description;
         this.mPrice = this.randomNumGeneratorDouble();
-
         this.mFree = this.mPrice == 00.00;
         this.mHidden = false;
+        this.mNew = id % 2 > 0;
     }
 
     private Product(Parcel in) {
@@ -114,6 +116,14 @@ public class Product implements Parcelable{
 
     public boolean isFree() {
         return mFree;
+    }
+
+    public boolean isNew(){
+        return mNew;
+    }
+
+    public void setNew(boolean isNew){
+        this.mNew = isNew;
     }
 
     public void setFree(boolean mFree) {

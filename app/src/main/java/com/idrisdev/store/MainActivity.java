@@ -17,6 +17,7 @@ import com.idrisdev.store.fragments.AccountFragment;
 import com.idrisdev.store.fragments.HomeFragment;
 import com.idrisdev.store.fragments.ProductsFragment;
 import com.idrisdev.store.models.Product;
+import com.idrisdev.store.models.ProductList;
 import com.idrisdev.store.models.User;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ProductsFragment mProductsFragment = new ProductsFragment();
     private AccountFragment mAccountFragment = new AccountFragment();
     private AlertDialog mLogoutDialog;
-    private ArrayList<Product> mProducts;
+    private ProductList mProducts;
     private Bundle mBundle;
 
     @Override
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     private void openProductFragment() {
         mBundle = new Bundle();
         mBundle.putParcelable("user",this.mUser);
-        mBundle.putParcelableArrayList("products",mProducts);
+        mBundle.putParcelable("products",mProducts);
 
         mProductsFragment.setArguments(mBundle);
         setFragment(mProductsFragment);
@@ -299,8 +300,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Product> products) {
             super.onPostExecute(products);
-            mActivity.mProducts = products;
-            mActivity.mUser.addOrder(products.get(1));
+            mActivity.mProducts = new ProductList(products);
+            mActivity.mUser.addOrder(products.get(0));
             openHomeFragment();
         }
     }

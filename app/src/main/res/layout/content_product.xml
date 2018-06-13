@@ -18,12 +18,40 @@
         android:textStyle="bold"
         android:textColor="@color/colorPrimary"/>
 
-    <TextView
-        android:id="@+id/product_activity_price"
+    <LinearLayout
+        android:id="@+id/product_activity_price_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/product_activity_name"
-        android:textSize="16sp"
-        android:text="@string/product_price_string"/>
+        android:orientation="horizontal"
+        android:layout_below="@id/product_activity_name">
+        <TextView
+            android:id="@+id/product_activity_price_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="@string/product_item_title_price"/>
+
+        <TextView
+            android:id="@+id/product_activity_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/small_margin_size"
+            android:layout_marginStart="@dimen/small_margin_size"
+            android:text="@string/product_item_price_default"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/product_activity_description_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/small_margin_size"
+        android:text="@string/product_description_title"
+        android:layout_below="@id/product_activity_price_container"/>
+    <TextView
+        android:id="@+id/product_activity_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/product_activity_description_title"
+        android:text="@string/text_default"/>
 
 </RelativeLayout>
