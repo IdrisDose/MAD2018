@@ -20,18 +20,19 @@ import com.idrisdev.store.models.ProductList;
 import com.idrisdev.store.models.User;
 
 
-public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.ViewHolder>{
+public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.ViewHolder> {
     private static final String TAG = "StoreApp";
+    private static User sUser;
     private Context mContext;
     private ProductList mProducts;
-    private static User sUser;
 
     /**
      * AllProductAdapter Constructor
-     * @param context the context needed to be parsed in
+     *
+     * @param context  the context needed to be parsed in
      * @param products the ProductList to be displayed
      */
-    public AllProductAdapter(Context context, ProductList products){
+    public AllProductAdapter(Context context, ProductList products) {
         this.mContext = context;
         this.mProducts = products;
         sUser = User.getInstance();
@@ -60,7 +61,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(this.mContext).inflate(R.layout.product_item,parent,false);
+        View itemView = LayoutInflater.from(this.mContext).inflate(R.layout.product_item, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -96,10 +97,10 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
         // Sets the onClickListener of a product item to change to a 'more details' activity.
         // USES: a Lamba Expression with input of 'view'
         holder.mProductLayout.setOnClickListener(view -> {
-                Intent productDetailsScreenIntent = new Intent(view.getContext(),ProductActivity.class);
-                productDetailsScreenIntent.putExtra("product",mProduct);
-                productDetailsScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(productDetailsScreenIntent);
+            Intent productDetailsScreenIntent = new Intent(view.getContext(), ProductActivity.class);
+            productDetailsScreenIntent.putExtra("product", mProduct);
+            productDetailsScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(productDetailsScreenIntent);
         });
     }
 
@@ -113,7 +114,20 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
         return mProducts.getSize();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    /**
+     * Creates a short toast message (the little black box displayed at the bottom of the screen)
+     *
+     * @param message String - Message you want TOASTED
+     */
+    private void createToastMessage(String message) {
+        //For Logging and Debug purposes
+        Log.d(TAG, message);
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(mContext, message, duration);
+        toast.show();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView mName;
         TextView mDescription;
         TextView mPrice;
@@ -126,17 +140,5 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
             mPrice = itemView.findViewById(R.id.product_item_price_tv);
             mProductLayout = itemView.findViewById(R.id.product_layout_rl);
         }
-    }
-
-    /**
-     * Creates a short toast message (the little black box displayed at the bottom of the screen)
-     * @param message String - Message you want TOASTED
-     */
-    private void createToastMessage(String message){
-        //For Logging and Debug purposes
-        Log.d(TAG, message);
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(mContext, message, duration);
-        toast.show();
     }
 }
