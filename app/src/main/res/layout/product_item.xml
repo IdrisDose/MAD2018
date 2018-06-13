@@ -32,16 +32,16 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_margin="8dp"
+        android:layout_margin="@dimen/default_margin_size"
         android:gravity="end"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/product_item_title_price"
             android:textAlignment="viewStart"
@@ -49,15 +49,18 @@
             android:textSize="14sp"
             android:textStyle="bold"
             android:gravity="start" />
-
         <TextView
-            android:id="@+id/product_price_tv"
-            android:layout_width="match_parent"
+            android:id="@+id/product_item_price_tv"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/product_default_price"
-            android:textAlignment="viewStart"
-            android:textColor="@color/colorGrey"
+            android:text="@string/product_item_price_default"
+
+            android:textColor="@color/colorPrimary"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:gravity="start" />
+            android:gravity="end"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"/>
+
     </LinearLayout>
 </RelativeLayout>

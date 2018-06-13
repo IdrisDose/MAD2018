@@ -9,8 +9,21 @@
     tools:showIn="@layout/activity_product">
 
     <TextView
+        android:id="@+id/product_activity_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/product_all_title"/>
+        android:text="@string/product_name_string"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/product_activity_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/product_activity_name"
+        android:textSize="16sp"
+        android:text="@string/product_price_string"/>
 
 </RelativeLayout>

@@ -114,7 +114,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             super(itemView);
             mName = (TextView) itemView.findViewById(R.id.product_name_tv);
             mDescription = (TextView) itemView.findViewById(R.id.product_description_tv);
-            mPrice = (TextView) itemView.findViewById(R.id.product_price_tv);
+            mPrice = (TextView) itemView.findViewById(R.id.product_item_price_tv);
             mProductLayout = (RelativeLayout) itemView.findViewById(R.id.product_layout_rl);
         }
     }
