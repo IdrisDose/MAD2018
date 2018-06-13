@@ -45,8 +45,8 @@ public class AccountFragment extends Fragment {
 
         userName.setText(getString(R.string.account_name, sUser.getName()));
         ownedProducts.setText(getString(R.string.user_product_count, sUser.getOrderCount()));
-        userEmail.setText(getString(R.string.account_email_string,sUser.getEmail()));
-        userStatus.setText(getString(R.string.account_status,sUser.getActivePretty()));
+        userEmail.setText(getString(R.string.account_email_string, sUser.getEmail()));
+        userStatus.setText(getString(R.string.account_status, sUser.getActivePretty()));
 
         //Fires when the Change Email button is clicked/tapped
         changeEmailButton.setOnClickListener(button -> {
@@ -68,7 +68,6 @@ public class AccountFragment extends Fragment {
 
         return accountView;
     }
-
 
 
 }
