@@ -1,13 +1,7 @@
 package com.idrisdev.store;
 
-import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,23 +14,14 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.idrisdev.store.adapters.AllProductAdapter;
-import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.ProductList;
 import com.idrisdev.store.models.User;
-import com.idrisdev.store.services.StoreWebService;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import retrofit2.Call;
 
 public class AllProductsActivity extends AppCompatActivity {
 
     private static final String TAG = "StoreApp";
-    private ProductList mProducts;
     private static User sUser;
-
+    private ProductList mProducts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +33,7 @@ public class AllProductsActivity extends AppCompatActivity {
         //Get the user object which should be parsed into the Activity from either registration or login form (LandingActivity)
         sUser = User.getInstance();
         Bundle args = getIntent().getExtras();
-        if(args!=null){
+        if (args != null) {
             this.mProducts = args.getParcelable("products");
         }
 
@@ -57,7 +42,7 @@ public class AllProductsActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         allProductsRv.setLayoutManager(layoutManager);
         allProductsRv.setItemAnimator(new DefaultItemAnimator());
-        allProductsRv.setAdapter(new AllProductAdapter(getApplicationContext(),this.mProducts));
+        allProductsRv.setAdapter(new AllProductAdapter(getApplicationContext(), this.mProducts));
 
         TextView allProductsActivityTitle = findViewById(R.id.all_products_activity_title);
         allProductsActivityTitle.setText(getString(R.string.products_title_with_count, this.mProducts.getSize()));
@@ -98,7 +83,7 @@ public class AllProductsActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.topnav_menu,menu);
+        getMenuInflater().inflate(R.menu.topnav_menu, menu);
         return true;
     }
 
@@ -120,7 +105,7 @@ public class AllProductsActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_action_logout:
                 showLogoutDialog();
                 return true;
@@ -135,16 +120,16 @@ public class AllProductsActivity extends AppCompatActivity {
      * Opens the Cart Activity
      */
     private void showCartActivity() {
-        Intent cartScreen = new Intent(this,CartActivity.class);
+        Intent cartScreen = new Intent(this, CartActivity.class);
         startActivity(cartScreen);
     }
 
     /**
      * Handles what happens when you click the logout option on the topnav menu
      */
-    public void handleLogout(){
+    public void handleLogout() {
         //Makes a new Intent to swap to
-        Intent loginScreen = new Intent(this,LandingActivity.class);
+        Intent loginScreen = new Intent(this, LandingActivity.class);
         //Stops any other activities running regarding this app.
         loginScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         //Starts the loginScreen intent (using the LandingActivity layout/Activity)
@@ -156,7 +141,7 @@ public class AllProductsActivity extends AppCompatActivity {
     /**
      * Shows a confirmation dialog to make sure the user wants to logout.
      */
-    public void showLogoutDialog(){
+    public void showLogoutDialog() {
         new AlertDialog.Builder(AllProductsActivity.this)
                 .setTitle("Logout")
                 .setMessage("Would you like to logout? (this will also empty your cart)")
