@@ -38,9 +38,9 @@ public class HomeFragment extends Fragment {
         TextView openTickets = homeView.findViewById(R.id.home_open_tickets);
         TextView newsContainer = homeView.findViewById(R.id.home_recent_news);
 
-        name.setText(getString(R.string.home_fragment_text,sUser.getName()));
-        ownedProducts.setText(getString(R.string.user_product_count,sUser.getOrderCount()));
-        openTickets.setText(getString(R.string.user_open_ticket_count,0));
+        name.setText(getString(R.string.home_fragment_text, sUser.getName()));
+        ownedProducts.setText(getString(R.string.user_product_count, sUser.getOrderCount()));
+        openTickets.setText(getString(R.string.user_open_ticket_count, 0));
 
         //Sets the news container but since there is no news it's 'No Recent News.'
         newsContainer.setText(getString(R.string.default_no_news));

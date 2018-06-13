@@ -5,64 +5,6 @@ import android.os.Parcelable;
 
 
 public class Cart implements Parcelable {
-    private ProductList mItems;
-    private double mCartPrice;
-
-    /**
-     * Basic constructor for the user's cart
-     * empty for initialization
-     */
-    public Cart(){
-        //Need Empty for initialization
-        mItems = new ProductList();
-        this.mCartPrice = 0.00;
-    }
-
-    /**
-     * Basic Constructor for the user's cart can be used to hold an already existing cart
-     * @param items ProductList items to be contained within the cart
-     * @param cartPrice double Total price of the cart
-     */
-    public Cart(ProductList items, double cartPrice){
-        this.mItems = items;
-        this.mCartPrice = cartPrice;
-    }
-
-    /**
-     * Adds a product to the cart
-     * @param product Product desired product
-     */
-    public void addToCart(Product product){
-        this.mItems.addProduct(product);
-        this.mCartPrice = this.mCartPrice+product.getPrice();
-    }
-
-    /**
-     * Gets the Cart's Items
-     * @return ProductList items
-     */
-    public ProductList getCartItems(){
-        return this.mItems;
-    }
-
-    /**
-     * Gets the Cart's Total Price
-     * @return double CartPrice
-     */
-    public double getCartPrice(){
-        return this.mCartPrice;
-    }
-
-
-    /*
-        All Parcelable Related functions (including constructor) under this line
-     */
-
-    protected Cart(Parcel in) {
-        mItems = in.readParcelable(ProductList.class.getClassLoader());
-        mCartPrice = in.readDouble();
-    }
-
     public static final Creator<Cart> CREATOR = new Creator<Cart>() {
         @Override
         public Cart createFromParcel(Parcel in) {
@@ -74,6 +16,67 @@ public class Cart implements Parcelable {
             return new Cart[size];
         }
     };
+    private ProductList mItems;
+    private double mCartPrice;
+
+    /**
+     * Basic constructor for the user's cart
+     * empty for initialization
+     */
+    public Cart() {
+        //Need Empty for initialization
+        mItems = new ProductList();
+        this.mCartPrice = 0.00;
+    }
+
+    /**
+     * Basic Constructor for the user's cart can be used to hold an already existing cart
+     *
+     * @param items     ProductList items to be contained within the cart
+     * @param cartPrice double Total price of the cart
+     */
+    public Cart(ProductList items, double cartPrice) {
+        this.mItems = items;
+        this.mCartPrice = cartPrice;
+    }
+
+    protected Cart(Parcel in) {
+        mItems = in.readParcelable(ProductList.class.getClassLoader());
+        mCartPrice = in.readDouble();
+    }
+
+    /**
+     * Adds a product to the cart
+     *
+     * @param product Product desired product
+     */
+    public void addToCart(Product product) {
+        this.mItems.addProduct(product);
+        this.mCartPrice = this.mCartPrice + product.getPrice();
+    }
+
+
+    /*
+        All Parcelable Related functions (including constructor) under this line
+     */
+
+    /**
+     * Gets the Cart's Items
+     *
+     * @return ProductList items
+     */
+    public ProductList getCartItems() {
+        return this.mItems;
+    }
+
+    /**
+     * Gets the Cart's Total Price
+     *
+     * @return double CartPrice
+     */
+    public double getCartPrice() {
+        return this.mCartPrice;
+    }
 
     /**
      * Describe the kinds of special objects contained in this Parcelable
@@ -99,7 +102,7 @@ public class Cart implements Parcelable {
      */
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(mItems,flags);
+        dest.writeParcelable(mItems, flags);
         dest.writeDouble(mCartPrice);
     }
 }

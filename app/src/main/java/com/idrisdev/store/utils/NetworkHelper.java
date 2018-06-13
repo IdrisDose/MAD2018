@@ -10,19 +10,20 @@ public class NetworkHelper {
 
     /**
      * Checks to see if the application has network
+     *
      * @param context Context
      * @return boolean (True if the context has network; False if no network)
      */
-    public static boolean hasNetworkAccess(Context context){
+    public static boolean hasNetworkAccess(Context context) {
         ConnectivityManager connManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        try{
+        try {
             NetworkInfo activeNetwork = connManager.getActiveNetworkInfo();
             return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        }catch(Exception e){
+        } catch (Exception e) {
             //Dirty I know but I don't know the Exceptions
-            Log.e(TAG, "hasNetworkAccess: ",e);
+            Log.e(TAG, "hasNetworkAccess: ", e);
             return false;
         }
     }

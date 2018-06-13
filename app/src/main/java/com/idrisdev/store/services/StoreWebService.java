@@ -11,22 +11,22 @@ import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 public interface StoreWebService {
-   String URLPATH = "http://idris.tech/api/v1/";
-   String LOGIN = "user/login";
-   String PRODUCTS = "products";
-   String ORDERS = "orders";
+    String URLPATH = "http://idris.tech/api/v1/";
+    String LOGIN = "user/login";
+    String PRODUCTS = "products";
+    String ORDERS = "orders";
 
-   Retrofit retrofit = new Retrofit.Builder()
-           .baseUrl(URLPATH)
-           .addConverterFactory(GsonConverterFactory.create())
-           .build();
+    Retrofit retrofit = new Retrofit.Builder()
+            .baseUrl(URLPATH)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build();
 
-   @POST(LOGIN)
+    @POST(LOGIN)
     Call<User> user();
 
-   @GET(PRODUCTS)
+    @GET(PRODUCTS)
     Call<Product[]> products();
 
-   @GET(ORDERS)
+    @GET(ORDERS)
     Call<Product[]> orders(@Query("id") int id);
 }

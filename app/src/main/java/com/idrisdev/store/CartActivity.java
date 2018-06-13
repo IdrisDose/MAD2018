@@ -8,18 +8,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.idrisdev.store.adapters.ProductAdapter;
 import com.idrisdev.store.models.User;
-import com.idrisdev.store.utils.HttpHelper;
-
-import java.io.IOException;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -27,6 +23,7 @@ public class CartActivity extends AppCompatActivity {
     private RelativeLayout mCartProgress;
     private LinearLayout mCartItemContainer;
     private ScrollView mCartContainer;
+    private TextView mCartContainerTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +39,16 @@ public class CartActivity extends AppCompatActivity {
         mCartProgress = findViewById(R.id.cart_progress_container);
         mCartItemContainer = findViewById(R.id.cart_container);
         mCartContainer = findViewById(R.id.cart_activity_content);
+        mCartContainerTitle = findViewById(R.id.cart_item_container_title);
+        mCartContainerTitle.setText(getString(R.string.cart_items_title,sUser.getCart().getCartItems().getSize()));
 
         RecyclerView cartItemRv = findViewById(R.id.cart_items_container);
         RecyclerView.LayoutManager cartItemLayoutManager = new LinearLayoutManager(getApplicationContext());
         cartItemRv.setLayoutManager(cartItemLayoutManager);
         cartItemRv.setAdapter(new ProductAdapter(getApplicationContext(), sUser.getCart().getCartItems()));
         cartItemRv.setItemAnimator(new DefaultItemAnimator());
+
+
 
 
         FloatingActionButton fab = findViewById(R.id.cart_checkout_btn);
@@ -59,7 +60,7 @@ public class CartActivity extends AppCompatActivity {
         });
     }
 
-    private void showProgress(boolean show){
+    private void showProgress(boolean show) {
         mCartProgress.setVisibility(show ? View.VISIBLE : View.GONE);
         mCartItemContainer.setVisibility(show ? View.GONE : View.VISIBLE);
 
@@ -67,14 +68,22 @@ public class CartActivity extends AppCompatActivity {
                 getResources().getColor(R.color.colorOffWhite));
 
     }
-    private void purchaseItems(){
+
+    private void purchaseItems() {
         User.getInstance().purchaseCart();
         //TODO: Allow for adding to user orders/products (via Webserver)
         //There was an error I was stuck on in the web portion
         // I think my website security was too strict.
     }
 
-    private class CheckoutTask extends AsyncTask<Void,Void,Boolean>{
+    private void addedToCart() {
+
+
+        showProgress(false);
+        this.finish();
+    }
+
+    private class CheckoutTask extends AsyncTask<Void, Void, Boolean> {
 
         /**
          * Override this method to perform a computation on a background thread. The
@@ -124,14 +133,6 @@ public class CartActivity extends AppCompatActivity {
             super.onPostExecute(aBoolean);
             addedToCart();
         }
-    }
-
-    private void addedToCart() {
-
-
-
-        showProgress(false);
-        this.finish();
     }
 
 }

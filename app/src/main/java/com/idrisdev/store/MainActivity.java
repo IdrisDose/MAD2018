@@ -46,6 +46,35 @@ public class MainActivity extends AppCompatActivity {
     private RelativeLayout mMainContainer;
     private RelativeLayout mMainProgress;
     private FrameLayout mFrameLayout;
+    /**
+     * Handles what happens when a BottomNav Item is tapped/selected
+     */
+    private BottomNavigationView.OnNavigationItemSelectedListener onItemSelected =
+            new BottomNavigationView.OnNavigationItemSelectedListener() {
+                /**
+                 * Called when an item in the bottom navigation menu is selected.
+                 *
+                 * @param item The selected item
+                 * @return true to display the item as the selected item and false if the item should not
+                 * be selected. Consider setting non-selectable items as disabled preemptively to
+                 * make them appear non-interactive.
+                 */
+                @Override
+                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                    switch (item.getItemId()) {
+                        case R.id.navigation_home:
+                            openHomeFragment();
+                            return true;
+                        case R.id.navigation_products:
+                            openProductFragment();
+                            return true;
+                        case R.id.navigation_account:
+                            openAccountFragment();
+                            return true;
+                    }
+                    return false;
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,49 +110,19 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Sets ups a fragment transaction;
+     *
      * @param fragment Fragment to start transaction
      */
-    private void setFragment(Fragment fragment){
+    private void setFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
     }
 
     /**
-     * Handles what happens when a BottomNav Item is tapped/selected
-     */
-    private BottomNavigationView.OnNavigationItemSelectedListener onItemSelected =
-            new BottomNavigationView.OnNavigationItemSelectedListener() {
-                /**
-                 * Called when an item in the bottom navigation menu is selected.
-                 *
-                 * @param item The selected item
-                 * @return true to display the item as the selected item and false if the item should not
-                 * be selected. Consider setting non-selectable items as disabled preemptively to
-                 * make them appear non-interactive.
-                 */
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    switch (item.getItemId()){
-                        case R.id.navigation_home:
-                            openHomeFragment();
-                            return true;
-                        case R.id.navigation_products:
-                            openProductFragment();
-                            return true;
-                        case R.id.navigation_account:
-                            openAccountFragment();
-                            return true;
-                    }
-                    return false;
-                }
-            };
-
-
-    /**
      * Opens the Home fragment which is basically a landing page once logged in
      */
-    private void openHomeFragment(){
+    private void openHomeFragment() {
         mBundle = new Bundle();
         mHomeFragment.setArguments(mBundle);
         setFragment(mHomeFragment);
@@ -134,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void openProductFragment() {
         mBundle = new Bundle();
-        mBundle.putParcelable("products",mProducts);
+        mBundle.putParcelable("products", mProducts);
         mProductsFragment.setArguments(mBundle);
         setFragment(mProductsFragment);
     }
@@ -142,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Opens the Account Fragment to show user details and allows the user to change their detaisl
      */
-    private void openAccountFragment(){
+    private void openAccountFragment() {
         mBundle = new Bundle();
         mAccountFragment.setArguments(mBundle);
         setFragment(mAccountFragment);
@@ -177,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.topnav_menu,menu);
+        getMenuInflater().inflate(R.menu.topnav_menu, menu);
         return true;
     }
 
@@ -199,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_action_logout:
                 showLogoutDialog();
                 return true;
@@ -215,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
      * Shows the Cart Activity so that the user can checkout
      */
     private void showCartActivity() {
-        Intent cartScreen = new Intent(this,CartActivity.class);
+        Intent cartScreen = new Intent(this, CartActivity.class);
         startActivity(cartScreen);
     }
 
@@ -223,10 +222,10 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Handles what happens when you logout
      */
-    public void handleLogout(){
+    public void handleLogout() {
         mLogoutDialog.dismiss();
         //Makes a new Intent to swap to
-        Intent loginScreen = new Intent(this,LandingActivity.class);
+        Intent loginScreen = new Intent(this, LandingActivity.class);
         //Stops any other activities running regarding this app.
         loginScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         //Starts the loginScreen intent (using the LandingActivity layout/Activity)
@@ -238,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Shows a confirmation dialog to make sure the user wants to logout.
      */
-    public void showLogoutDialog(){
+    public void showLogoutDialog() {
         mLogoutDialog = new AlertDialog.Builder(MainActivity.this)
                 .setTitle("Logout")
                 .setMessage("Would you like to logout? (this will also empty your cart)")
@@ -262,9 +261,10 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Gets the initial request data which contains the product list.
+     *
      * @return ArrayList of Products
      */
-    private ArrayList<Product> getRequestData(){
+    private ArrayList<Product> getRequestData() {
         try {
             StoreWebService webService =
                     StoreWebService.retrofit.create(StoreWebService.class);
@@ -280,26 +280,27 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Gets the User's Orders also known as Owned Products
-     * @return
+     *
+     * @return ArrayList<Product></Product>
      */
-    private ArrayList<Product> getUserData(){
+    private ArrayList<Product> getUserData() {
         Product[] products = new Product[]{};
 
         try {
             Gson gson = new Gson();
-            String test = HttpHelper.downloadUrlGet("orders/"+User.getInstance().getId());
-            products = gson.fromJson(test,Product[].class);
+            String test = HttpHelper.downloadUrlGet("orders/" + User.getInstance().getId());
+            products = gson.fromJson(test, Product[].class);
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return  new ArrayList<>(Arrays.asList(products));
+        return new ArrayList<>(Arrays.asList(products));
     }
 
     /**
      * The AsyncTask used to get the ProductList
      */
-    private class GetProductsTask extends AsyncTask<Void,Void,ArrayList<Product>>{
+    private class GetProductsTask extends AsyncTask<Void, Void, ArrayList<Product>> {
 
         /**
          * Override this method to perform a computation on a background thread. The
@@ -354,7 +355,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * The AsyncTask used to get the users owned products
      */
-    private class GetUserProducts extends AsyncTask<Void,Void,ArrayList<Product>>{
+    private class GetUserProducts extends AsyncTask<Void, Void, ArrayList<Product>> {
         /**
          * Runs on the UI thread before {@link #doInBackground}.
          *

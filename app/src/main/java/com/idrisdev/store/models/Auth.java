@@ -14,16 +14,18 @@ public class Auth {
 
     /**
      * Basic Constructor for Auth
-     * @param username
-     * @param password
+     *
+     * @param username String
+     * @param password String
      */
-    public Auth(String username, String password){
+    public Auth(String username, String password) {
         mUsername = username;
         mPassword = password;
     }
 
     /**
      * Gets the Auth's Username
+     *
      * @return String the Auth's username
      */
     public String getUsername() {
@@ -32,6 +34,7 @@ public class Auth {
 
     /**
      * Sets the Auth's username
+     *
      * @param username String desired username
      */
     public void setUsername(String username) {
@@ -40,6 +43,7 @@ public class Auth {
 
     /**
      * Gets the Auth's Password
+     *
      * @return String the Auth's Password
      */
     public String getPassword() {
@@ -48,6 +52,7 @@ public class Auth {
 
     /**
      * Sets the Auth's Password
+     *
      * @param password String the desired password
      */
     public void setPassword(String password) {
@@ -56,9 +61,10 @@ public class Auth {
 
     /**
      * Checks see if the password and username is valid
+     *
      * @return if they are valid then return true else false
      */
-    public boolean isValid(){
+    public boolean isValid() {
         //Also known as IsEmpty?
         return TextUtils.isEmpty(mUsername) || TextUtils.isEmpty(mPassword);
     }

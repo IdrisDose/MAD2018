@@ -16,17 +16,18 @@ import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.ProductList;
 
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder>{
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
     private static final String TAG = "StoreApp";
     private Context mContext;
     private ProductList mProducts;
 
     /**
      * ProductAdapter basic constructor
-     * @param context the context needed to be targeted
+     *
+     * @param context  the context needed to be targeted
      * @param products a product list to be displayed
      */
-    public ProductAdapter(Context context, ProductList products){
+    public ProductAdapter(Context context, ProductList products) {
         this.mContext = context;
         this.mProducts = products;
     }
@@ -54,7 +55,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(this.mContext).inflate(R.layout.product_item,parent,false);
+        View itemView = LayoutInflater.from(this.mContext).inflate(R.layout.product_item, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -106,7 +107,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         return mProducts.getSize();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView mName;
         TextView mDescription;
         TextView mPrice;

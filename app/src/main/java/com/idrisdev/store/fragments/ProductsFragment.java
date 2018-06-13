@@ -17,7 +17,6 @@ import android.widget.TextView;
 import com.idrisdev.store.AllProductsActivity;
 import com.idrisdev.store.R;
 import com.idrisdev.store.adapters.ProductAdapter;
-import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.ProductList;
 import com.idrisdev.store.models.User;
 
@@ -29,8 +28,8 @@ import java.util.ArrayList;
  */
 public class ProductsFragment extends Fragment {
 
-    private ProductList mProducts;
     private static User sUser;
+    private ProductList mProducts;
 
     public ProductsFragment() {
         // Required empty public constructor
@@ -45,10 +44,10 @@ public class ProductsFragment extends Fragment {
 
         //Checks to see if the bundle parsed in via it's intent is empty
         Bundle bundle = this.getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             //If it's not set this classes' productList to the one parsed in
-             this.mProducts = bundle.getParcelable("products");
-        }else{
+            this.mProducts = bundle.getParcelable("products");
+        } else {
             //else replace with empty so that it app doesn't crash completely
             this.mProducts = new ProductList(new ArrayList<>());
         }
@@ -66,15 +65,15 @@ public class ProductsFragment extends Fragment {
         mOwnedProductsText.setText(getString(R.string.product_owned_title, sUser.getOrderCount()));
 
         TextView mProductText = productView.findViewById(R.id.product_all_count);
-        mProductText.setText(getString(R.string.products_title_with_count,mProducts.getSize()));
+        mProductText.setText(getString(R.string.products_title_with_count, mProducts.getSize()));
 
         AppCompatButton mViewAllBtn = productView.findViewById(R.id.view_all_products_button);
 
         //Fires when the view all button is tapped
         mViewAllBtn.setOnClickListener(button -> {
-            if(button.getId() == R.id.view_all_products_button){
+            if (button.getId() == R.id.view_all_products_button) {
                 Intent allProductsScreen = new Intent(button.getContext(), AllProductsActivity.class);
-                allProductsScreen.putExtra("products",this.mProducts);
+                allProductsScreen.putExtra("products", this.mProducts);
                 startActivity(allProductsScreen);
             }
         });

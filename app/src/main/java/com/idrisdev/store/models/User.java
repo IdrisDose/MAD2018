@@ -4,43 +4,26 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-public class User{
-    @SerializedName("id")
-    private int mId;
-
-    @SerializedName("name")
-    private String mName;
-
-    @SerializedName("email")
-    private String mEmail;
-
-    @SerializedName("active")
-    private boolean mActive;
-
-    //ProductList Orders used to store OwnProducts
-    private ProductList mOrders;
-
-    //Cart used to store this sessions cart
-    private Cart mCart;
-
+public class User {
     //Used for the singleton
     private static User instance;
-
-    /**
-     * Returns a static instance of the User Class
-     * @return User
-     */
-    public static User getInstance(){
-        if(instance == null){
-            instance = new User();
-        }
-        return instance;
-    }
+    @SerializedName("id")
+    private int mId;
+    @SerializedName("name")
+    private String mName;
+    @SerializedName("email")
+    private String mEmail;
+    @SerializedName("active")
+    private boolean mActive;
+    //ProductList Orders used to store OwnProducts
+    private ProductList mOrders;
+    //Cart used to store this sessions cart
+    private Cart mCart;
 
     /**
      * Empty Constructor for Singleton
      */
-    private User(){
+    private User() {
         //Empty for singleton
         mCart = new Cart();
         mOrders = new ProductList();
@@ -48,7 +31,20 @@ public class User{
     }
 
     /**
+     * Returns a static instance of the User Class
+     *
+     * @return User
+     */
+    public static User getInstance() {
+        if (instance == null) {
+            instance = new User();
+        }
+        return instance;
+    }
+
+    /**
      * Gets the User's ID
+     *
      * @return String - This User's ID
      */
     public int getId() {
@@ -56,31 +52,8 @@ public class User{
     }
 
     /**
-     * Gets the User's Name
-     * @return String - This User's Name
-     */
-    public String getName() {
-        return mName;
-    }
-
-    /**
-     * Gets this User's Email
-     * @return String - This User's Email
-     */
-    public String getEmail() {
-        return mEmail;
-    }
-
-    /**
-     * Used to check if the User is Active
-     * @return boolen This User's active status
-     */
-    public boolean isActive() {
-        return mActive;
-    }
-
-    /**
      * Sets the User's ID
+     *
      * @param id int
      */
     public void setId(int id) {
@@ -88,7 +61,17 @@ public class User{
     }
 
     /**
+     * Gets the User's Name
+     *
+     * @return String - This User's Name
+     */
+    public String getName() {
+        return mName;
+    }
+
+    /**
      * Sets the User's Name
+     *
      * @param name String
      */
     public void setName(String name) {
@@ -96,7 +79,17 @@ public class User{
     }
 
     /**
+     * Gets this User's Email
+     *
+     * @return String - This User's Email
+     */
+    public String getEmail() {
+        return mEmail;
+    }
+
+    /**
      * Sets the User's Email
+     *
      * @param email String
      */
     public void setEmail(String email) {
@@ -104,7 +97,17 @@ public class User{
     }
 
     /**
+     * Used to check if the User is Active
+     *
+     * @return boolen This User's active status
+     */
+    public boolean isActive() {
+        return mActive;
+    }
+
+    /**
      * Sets the User's Active Status
+     *
      * @param active boolean
      */
     public void setActive(boolean active) {
@@ -112,23 +115,17 @@ public class User{
     }
 
     /**
-     * Sets the User's orders
-     * @param products List<Product>
-     */
-    public void setOrders(ArrayList<Product> products){
-        this.mOrders = new ProductList(products);
-    }
-
-    /**
      * Add a product to the User's orders
+     *
      * @param product Product
      */
-    public void addOrder(Product product){
+    public void addOrder(Product product) {
         this.mOrders.addProduct(product);
     }
 
     /**
      * Gets the user's owned products
+     *
      * @return mOrders OwnedProducts
      */
     public ProductList getOrders() {
@@ -136,15 +133,26 @@ public class User{
     }
 
     /**
+     * Sets the User's orders
+     *
+     * @param products List<Product>
+     */
+    public void setOrders(ArrayList<Product> products) {
+        this.mOrders = new ProductList(products);
+    }
+
+    /**
      * Gets the user's Cart
+     *
      * @return Cart
      */
-    public Cart getCart(){
+    public Cart getCart() {
         return this.mCart;
     }
 
     /**
      * Sets the user's cart
+     *
      * @param cart Cart
      */
     public void setCart(Cart cart) {
@@ -153,24 +161,26 @@ public class User{
 
     /**
      * Gets the size of this users order list
+     *
      * @return the size of mOrders.
      */
-    public int getOrderCount(){
+    public int getOrderCount() {
         return this.mOrders.getSize();
     }
 
     /**
      * Returns a pretty/formatted version of IsActive used for display
+     *
      * @return String
      */
-    public String getActivePretty(){
+    public String getActivePretty() {
         return this.mActive ? "Active" : "Deactive";
     }
 
     /**
      * Used to statically place the productlist cart items into orders productlist
      */
-    public void purchaseCart(){
+    public void purchaseCart() {
         ProductList myCart = this.mCart.getCartItems();
         this.mOrders.getAllProducts().addAll(myCart.getAllProducts());
     }
