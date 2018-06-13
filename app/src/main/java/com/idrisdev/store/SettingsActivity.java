@@ -1,6 +1,5 @@
 package com.idrisdev.store;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -8,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.idrisdev.store.models.Auth;
 
 public class SettingsActivity extends AppCompatActivity{
 
@@ -87,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity{
     public void handleLogout(){
         //Makes a new Intent to swap to
         Intent loginScreen = new Intent(this,LandingActivity.class);
-        //Stops any other activies running regarding this app.
+        //Stops any other activities running regarding this app.
         loginScreen.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         //Starts the loginScreen intent (using the LandingActivity layout/Activity)
         startActivity(loginScreen);

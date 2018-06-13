@@ -41,8 +41,8 @@ public class HomeFragment extends Fragment {
         TextView newsContainer = inf.findViewById(R.id.home_recent_news);
 
         name.setText(getString(R.string.home_fragment_text,mUser.getName()));
-        ownedProducts.setText(getString(R.string.home_product_count,""+mUser.getOrderCount()));
-        openTickets.setText(getString(R.string.home_ticket_active_count,""+0));
+        ownedProducts.setText(getString(R.string.user_product_count,mUser.getOrderCount()));
+        openTickets.setText(getString(R.string.user_open_ticket_count,0));
 
         newsContainer.setText(getString(R.string.default_no_news));
         // Inflate the layout for this fragment

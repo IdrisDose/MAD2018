@@ -162,6 +162,9 @@ public class User implements Parcelable{
     //TODO: Remove;
     public String getPassword(){ return this.mPassword; }
 
+    public String getActivePretty(){
+        return this.mActive ? "Active" : "Deactive";
+    }
 
     @Override
     public int describeContents() {

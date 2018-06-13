@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import com.idrisdev.store.fragments.AccountFragment;
 import com.idrisdev.store.fragments.HomeFragment;
 import com.idrisdev.store.fragments.ProductsFragment;
-import com.idrisdev.store.fragments.TicketsFragment;
 import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.User;
 
@@ -28,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
     private HomeFragment mHomeFragment = new HomeFragment();
     private ProductsFragment mProductsFragment = new ProductsFragment();
-    private TicketsFragment mTicketsFragment = new TicketsFragment();
     private AccountFragment mAccountFragment = new AccountFragment();
     private AlertDialog mLogoutDialog;
     private ArrayList<Product> mProducts;
@@ -52,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Get the user object which should be parsed into the Activity from either registration or login form (LandingActivity)
-
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             this.mUser = extras.getParcelable("user");
@@ -98,9 +94,6 @@ public class MainActivity extends AppCompatActivity {
                         case R.id.navigation_products:
                             openProductFragment();
                             return true;
-                        case R.id.navigation_tickets:
-                            openTicketFragment();
-                            return true;
                         case R.id.navigation_account:
                             openAccountFragment();
                             return true;
@@ -127,20 +120,13 @@ public class MainActivity extends AppCompatActivity {
         mProductsFragment.setArguments(mBundle);
         setFragment(mProductsFragment);
     }
-    private void openTicketFragment(){
-        mBundle = new Bundle();
-        mBundle.putParcelable("user",this.mUser);
-
-        mTicketsFragment.setArguments(mBundle);
-        setFragment(mTicketsFragment);
-    }
 
     private void openAccountFragment(){
         mBundle = new Bundle();
         mBundle.putParcelable("user",this.mUser);
 
-        mTicketsFragment.setArguments(mBundle);
-        setFragment(mTicketsFragment);
+        mAccountFragment.setArguments(mBundle);
+        setFragment(mAccountFragment);
     }
 
 
@@ -257,10 +243,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         showLogoutDialog();
-    }
-
-    private void addProduct(int id, String name, String description){
-        this.mProducts.add(new Product(id,name,description));
     }
 
     private class GetProductsTask extends AsyncTask<Integer,Void,ArrayList<Product>>{

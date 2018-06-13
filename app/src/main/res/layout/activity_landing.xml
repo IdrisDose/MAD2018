@@ -8,8 +8,6 @@
     style="@style/AppTheme"
     tools:context=".LandingActivity">
 
-    <!-- TODO: Possible separate them into fragments -->
-
     <!-- Progress Bar Container -->
     <RelativeLayout
         android:id="@+id/progress_container_rl"
@@ -52,7 +50,6 @@
             android:textColor="@color/colorOffWhite"/>
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/button_panel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/login_title_tv"
@@ -92,7 +89,6 @@
         android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -100,7 +96,6 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin">
 
             <TextView
-                android:id="@+id/login_form_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/action_sign_in_short"
@@ -168,7 +163,6 @@
         android:visibility="gone">
 
         <LinearLayout
-            android:id="@+id/email_register_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -176,7 +170,6 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin">
 
             <TextView
-                android:id="@+id/register_form_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/action_register"
@@ -191,7 +184,6 @@
                 android:layout_marginTop="32dp">
 
                 <AutoCompleteTextView
-                    android:id="@+id/register_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
@@ -207,7 +199,6 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/register_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"

@@ -55,10 +55,10 @@ public class ProductsFragment extends Fragment {
         mRecyclerView.setAdapter(new ProductAdapter(inflater.getContext(),this.mUser.getOrders()));
 
         mOwnedProductsText = productView.findViewById(R.id.product_fragment_owned_products);
-        mOwnedProductsText.setText(getString(R.string.product_owned_title,""+mUser.getOrderCount()));
+        mOwnedProductsText.setText(getString(R.string.product_owned_title,mUser.getOrderCount()));
 
         mProductText = productView.findViewById(R.id.product_all_count);
-        mProductText.setText(getString(R.string.product_all_count,""+mProducts.size()));
+        mProductText.setText(getString(R.string.product_all_title,mProducts.size()));
         return productView;
     }
 

@@ -16,6 +16,8 @@
     <string name="action_sign_in_short">Login</string>
     <string name="action_register">Register</string>
     <string name="action_back">Back</string>
+    <string name="action_change_password">Change Password</string>
+    <string name="action_change_email">Change Email</string>
 
     <!-- Prompts -->
     <string name="prompt_email">Email</string>
@@ -33,39 +35,38 @@
     <!-- Bottom Nav Menu -->
     <string name="title_home">Home</string>
     <string name="title_products">Products</string>
-    <string name="title_tickets">Tickets</string>
     <string name="title_cart">Cart</string>
-    <string name="title_checkout">Checkout</string>
     <string name="title_account">Account</string>
 
     <!-- Fragments -->
     <string name="home_fragment_text">Welcome, %1$s</string>
     <string name="products_fragment_text">Products Fragment</string>
-    <string name="tickets_fragment_text">Tickets Fragment</string>
-    <string name="cart_fragment_text">Cart Fragment</string>
+
+    <!-- Global Strings -->
+    <string name="user_product_count">You currently own: %1d products</string>
+    <string name="user_open_ticket_count">You currently have %1d open tickets.</string>
 
     <!-- Home Strings -->
-    <string name="home_product_count">You currently own: %1$s products</string>
-    <string name="home_ticket_active_count">You currently have %1$s open tickets.</string>
     <string name="home_recent_news">Recent News:</string>
 
-
     <!-- Product Strings -->
-    <string name="product_owned_title">Your owned Products: (%1$s products)</string>
-    <string name="product_new_title">New Products</string>
-    <string name="product_all_title">All Products</string>
-    <string name="product_all_new_count">New Products: %1$s</string>
-    <string name="product_all_count">All Products: %1$s</string>
+    <string name="product_owned_title">Your owned Products: (%1$d  products)</string>
+    <string name="product_all_title">All Products: %1$d </string>
     <string name="product_view_all_action">View all products</string>
 
-    <!-- Ticket Strings -->
-    <string name="tickets_open">Open Tickets</string>
-
     <!-- Cart Strings -->
-    <string name="cart_empty">Your cart is empty</string>
+
+    <!-- Account Strings -->
+    <string name="account_fragment_title">Your Account</string>
+    <string name="account_email_string">Your Email: %1$s</string>
+    <string name="account_name">Your Name: %1$s</string>
+    <string name="account_details_title">Your Account Details:</string>
+    <string name="account_status">Account Status: %1$s</string>
+
+    <!-- Settings Strings -->
+    <string name="settings_activity_title">Application Settings</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_cart">CartActivity</string>
     <string name="title_activity_product">ProductActivity</string>
 

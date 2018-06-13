@@ -1,14 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AccountFragment">
+    tools:context=".fragments.AccountFragment"
+    android:layout_marginLeft="@dimen/default_margin_size"
+    android:layout_marginRight="@dimen/default_margin_size">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/account_fragment_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="32sp"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"
+        android:text="@string/account_fragment_title"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/account_owned_products"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/account_fragment_title"
+        android:gravity="center"
+        android:text="@string/user_product_count"
+        android:textSize="16sp"
+        android:layout_marginTop="@dimen/default_margin_size" />
+
+    <TextView
+        android:id="@+id/account_open_tickets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/account_owned_products"
+        android:gravity="center"
+        android:text="@string/user_open_ticket_count"
+        android:textSize="16sp"
+        android:layout_marginTop="@dimen/default_margin_size"/>
+
+
+
+    <LinearLayout
+        android:id="@+id/account_details_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/account_open_tickets"
+        android:layout_marginTop="@dimen/default_margin_size"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/account_details_title"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/account_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/account_name" />
+
+        <TextView
+            android:id="@+id/account_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/account_email_string"/>
+        <TextView
+            android:id="@+id/account_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/account_status"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/account_details_container"
+        android:layout_marginTop="@dimen/default_margin_size"
+        android:gravity="center">
+
+        <android.support.v7.widget.AppCompatButton
+            style="@style/ButtonSecondary"
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:text="@string/action_change_email" />
+
+        <android.support.v7.widget.AppCompatButton
+            style="@style/ButtonSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_change_password" />
+    </LinearLayout>
+
+</RelativeLayout>
