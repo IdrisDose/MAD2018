@@ -49,26 +49,6 @@ public class Product implements Parcelable{
         this.mNew = id % 2 > 0;
     }
 
-    private Product(Parcel in) {
-        mId = in.readInt();
-        mName = in.readString();
-        mDescription = in.readString();
-        mPrice = in.readDouble();
-        mHidden = in.readByte() != 0;
-        mFree = in.readByte() != 0;
-    }
-
-    public static final Creator<Product> CREATOR = new Creator<Product>() {
-        @Override
-        public Product createFromParcel(Parcel in) {
-            return new Product(in);
-        }
-
-        @Override
-        public Product[] newArray(int size) {
-            return new Product[size];
-        }
-    };
 
     public int getId() {
         return mId;
@@ -130,21 +110,6 @@ public class Product implements Parcelable{
         this.mFree = mFree;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(mId);
-        parcel.writeString(mName);
-        parcel.writeString(mDescription);
-        parcel.writeDouble(mPrice);
-        parcel.writeByte((byte) (mHidden ? 1 : 0));
-        parcel.writeByte((byte) (mFree ? 1 : 0));
-    }
-
     /**
      * Random number (double) generator using Math.random
      * @return random number between 1 and 20
@@ -173,4 +138,46 @@ public class Product implements Parcelable{
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
+
+
+     /*
+        All Parcelable Related functions (including constructor) under this line
+     */
+
+    private Product(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mDescription = in.readString();
+        mPrice = in.readDouble();
+        mHidden = in.readByte() != 0;
+        mFree = in.readByte() != 0;
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(mId);
+        parcel.writeString(mName);
+        parcel.writeString(mDescription);
+        parcel.writeDouble(mPrice);
+        parcel.writeByte((byte) (mHidden ? 1 : 0));
+        parcel.writeByte((byte) (mFree ? 1 : 0));
+    }
+
 }

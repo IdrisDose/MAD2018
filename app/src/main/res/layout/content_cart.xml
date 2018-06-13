@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    android:id="@+id/cart_activity_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,4 +10,64 @@
     tools:context=".CartActivity"
     tools:showIn="@layout/activity_cart">
 
-</android.support.constraint.ConstraintLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin_size"
+        android:layout_marginRight="@dimen/default_margin_size">
+
+        <RelativeLayout
+            android:id="@+id/cart_progress_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/progress_bar"
+                android:text="@string/action_logging_in"
+                android:gravity="center"
+                android:textSize="24sp"
+                android:textColor="@color/colorOffWhite"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/cart_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/cart_activity_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:textSize="32sp"
+                android:textColor="@color/colorPrimary"
+                android:textStyle="bold"
+                android:text="@string/cart_activity_title"/>
+            <TextView
+                android:id="@+id/cart_item_container_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/cart_items_title"
+                android:textStyle="bold"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cart_items_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin_size"/>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</ScrollView>

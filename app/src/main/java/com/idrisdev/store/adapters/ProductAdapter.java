@@ -2,15 +2,14 @@ package com.idrisdev.store.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.idrisdev.store.R;
 import com.idrisdev.store.models.Product;
@@ -87,7 +86,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
         // Sets the onClickListener of a product item to change to a 'more details' activity.
         // USES: a Lamba Expression with input of 'view'
-        holder.mProductLayout.setOnClickListener(view -> createToastMessage("No Available Options"));
+        holder.mProductLayout.setOnClickListener(view -> {
+            Snackbar.make(view, "No Available Option", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        });
     }
 
     /**
@@ -115,15 +117,4 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         }
     }
 
-    /**
-     * Creates a short toast message (the little black box displayed at the bottom of the screen)
-     * @param message String - Message you want TOASTED
-     */
-    private void createToastMessage(String message){
-        //For Logging and Debug purposes
-        Log.d(TAG, message);
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(mContext, message, duration);
-        toast.show();
-    }
 }

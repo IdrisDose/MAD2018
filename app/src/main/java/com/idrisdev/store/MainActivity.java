@@ -196,9 +196,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showCartActivity() {
-        Intent settingsScreen = new Intent(this,SettingsActivity.class);
-        settingsScreen.putExtra("user",this.mUser);
-        startActivity(settingsScreen);
+        Intent cartScreen = new Intent(this,CartActivity.class);
+        cartScreen.putExtra("user",this.mUser);
+        startActivity(cartScreen);
     }
 
     public void openSettings() {
@@ -227,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
     public void showLogoutDialog(){
         mLogoutDialog = new AlertDialog.Builder(MainActivity.this)
                 .setTitle("Logout")
-                .setMessage("Would you like to logout?")
+                .setMessage("Would you like to logout? (this will also empty your cart)")
                 //If Yes is Tapped, call the handleDialog method
                 .setPositiveButton("Yes", (dialog, which) -> {
                     dialog.dismiss();

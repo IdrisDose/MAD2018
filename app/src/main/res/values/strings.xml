@@ -58,6 +58,8 @@
     <string name="product_description_title">Product Description:</string>
 
     <!-- Cart Strings -->
+    <string name="cart_activity_title">Your Cart</string>
+    <string name="cart_items_title">Cart Items (%1$d items):</string>
 
     <!-- Account Strings -->
     <string name="account_fragment_title">Your Account</string>

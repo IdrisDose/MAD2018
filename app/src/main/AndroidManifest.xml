@@ -33,7 +33,7 @@
             android:name=".ProductActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".AllProducts"
+            android:name=".AllProductsActivity"
             android:theme="@style/AppTheme" />
     </application>
 

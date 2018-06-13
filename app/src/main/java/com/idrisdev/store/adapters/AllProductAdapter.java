@@ -17,6 +17,7 @@ import com.idrisdev.store.ProductActivity;
 import com.idrisdev.store.R;
 import com.idrisdev.store.models.Product;
 import com.idrisdev.store.models.ProductList;
+import com.idrisdev.store.models.User;
 
 /**
  * Created by Idris on 6/6/2018.
@@ -25,10 +26,12 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
     private static final String TAG = "MAD";
     private Context mContext;
     private ProductList mProducts;
+    private User mUser;
 
-    public AllProductAdapter(Context context, ProductList products){
+    public AllProductAdapter(Context context, ProductList products, User user){
         this.mContext = context;
         this.mProducts = products;
+        this.mUser = user;
     }
 
     /**
@@ -92,6 +95,7 @@ public class AllProductAdapter extends RecyclerView.Adapter<AllProductAdapter.Vi
         holder.mProductLayout.setOnClickListener(view -> {
             // TODO: Change this so it shows a product screen/activity.
                 Intent productDetailsScreenIntent = new Intent(view.getContext(),ProductActivity.class);
+                productDetailsScreenIntent.putExtra("user", mUser);
                 productDetailsScreenIntent.putExtra("product",mProduct);
                 productDetailsScreenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(productDetailsScreenIntent);

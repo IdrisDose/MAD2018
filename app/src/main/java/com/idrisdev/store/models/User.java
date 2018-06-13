@@ -29,27 +29,8 @@ public class User implements Parcelable{
         this.mId = id;
         this.mName = name;
         this.mEmail = email;
+        mCart = new Cart();
     }
-
-    private User(Parcel in) {
-        mId = in.readInt();
-        mName = in.readString();
-        mEmail = in.readString();
-        mActive = in.readByte() != 0;
-        mOrders = in.readParcelable(ProductList.class.getClassLoader());
-    }
-
-    public static final Creator<User> CREATOR = new Creator<User>() {
-        @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
-        }
-
-        @Override
-        public User[] newArray(int size) {
-            return new User[size];
-        }
-    };
 
     /**
      * Gets the User's ID
@@ -166,6 +147,32 @@ public class User implements Parcelable{
         return this.mActive ? "Active" : "Deactive";
     }
 
+     /*
+        All Parcelable Related functions (including constructor) under this line
+     */
+
+    private User(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mEmail = in.readString();
+        mActive = in.readByte() != 0;
+        mOrders = in.readParcelable(ProductList.class.getClassLoader());
+        mCart = in.readParcelable(Cart.class.getClassLoader());
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -178,6 +185,7 @@ public class User implements Parcelable{
         parcel.writeString(mEmail);
         parcel.writeByte((byte) (mActive ? 1 : 0));
         parcel.writeParcelable(mOrders,flags);
+        parcel.writeParcelable(mCart,flags);
     }
 
 
