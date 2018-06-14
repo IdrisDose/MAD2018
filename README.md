@@ -1,5 +1,7 @@
 #MAD2018 - StoreApp (Android Mobile Application)
 
+Repo Location: [REPO](https://github.com/IdrisDose/MAD2018)
+
 This product is as is and not complete
 
 It is meant purely as a demo project for an assignment I've been working on
